@@ -9,21 +9,16 @@ import UIKit
 
 class HomeVC: UIViewController {
 
+    let service : MovieServiceProtocol = MovieService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        service.fetchNowPlayingMovies { (result) in
+            print(result)
+        }
+        service.fetchUpcomingMovies { (result) in
+            print(result)
+        }
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
