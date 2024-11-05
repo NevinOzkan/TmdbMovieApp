@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Decodable {
+public struct Movie: Decodable {
     let adult: Bool?
     let backdropPath: String?
     let genreIds: [Int]?
