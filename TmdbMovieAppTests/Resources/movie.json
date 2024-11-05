@@ -1,11 +1,4 @@
 {
-  "dates": {
-    "maximum": "2024-11-06",
-    "minimum": "2024-09-25"
-  },
-  "page": 1,
-  "results": [
-    {
       "adult": false,
       "backdrop_path": "/gMQibswELoKmB60imE7WFMlCuqY.jpg",
       "genre_ids": [
@@ -24,5 +17,5 @@
       "video": false,
       "vote_average": 7.308,
       "vote_count": 588
-    }
+}
 
