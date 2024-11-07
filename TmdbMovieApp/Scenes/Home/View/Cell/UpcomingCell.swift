@@ -27,7 +27,6 @@ class UpcomingCell: UITableViewCell {
            titleLabel.text = model.title
            overviewLabel.text = model.overview
            
-           // `model.releaseDate` örnek bir tarih string'i alıyor.
            let formattedDateString = DateFormatterHelper.formattedDate(from: model.releaseDate)
            dateLabel.text = formattedDateString
            
