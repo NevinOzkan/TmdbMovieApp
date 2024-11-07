@@ -16,7 +16,7 @@ protocol MovieViewModelProtocol {
 }
 
 //ViewModel’in View’a göndereceği çıktıları tanımlar
-enum MovieViewModelOutput {
+enum MovieViewModelOutput: Equatable {
     case updateTitle(String)
     case setLoading(Bool)
     case movielist([Movie])

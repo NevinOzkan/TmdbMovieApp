@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Movie: Decodable {
+public struct Movie: Decodable, Equatable {
     let adult: Bool?
     let backdropPath: String?
     let genreIds: [Int]?
@@ -40,5 +40,24 @@ public struct Movie: Decodable {
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
         case imdbID = "imdb_id"
+    }
+
+// Implementing Equatable to compare Movie objects
+    public static func == (lhs: Movie, rhs: Movie) -> Bool {
+        return lhs.adult == rhs.adult &&
+            lhs.backdropPath == rhs.backdropPath &&
+            lhs.genreIds == rhs.genreIds &&
+            lhs.id == rhs.id &&
+            lhs.originalLanguage == rhs.originalLanguage &&
+            lhs.originalTitle == rhs.originalTitle &&
+            lhs.overview == rhs.overview &&
+            lhs.popularity == rhs.popularity &&
+            lhs.posterPath == rhs.posterPath &&
+            lhs.releaseDate == rhs.releaseDate &&
+            lhs.title == rhs.title &&
+            lhs.video == rhs.video &&
+            lhs.voteAverage == rhs.voteAverage &&
+            lhs.voteCount == rhs.voteCount &&
+            lhs.imdbID == rhs.imdbID
     }
 }

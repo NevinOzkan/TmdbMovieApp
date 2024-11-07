@@ -9,7 +9,61 @@ import XCTest
 @testable import TmdbMovieApp
 
 final class TmdbMovieAppTests: XCTestCase {
+        private var view: MockView!
+        private var viewModel: HomeViewModel!
+        private var service: MockMoviesService!
+        
+        override func setUpWithError() throws {
+            service = MockMoviesService()
+            viewModel = HomeViewModel(service: service)
+            view = MockView()
+            viewModel.delegate = view
+        }
+    
+    func testLoad() throws {
+            // Given:
+            let movie1 = try ResourceLoader.loadMovie(resource: .movie1)
+            let movie2 = try ResourceLoader.loadMovie(resource: .movie2)
+            service.movies = [movie1, movie2]
+            
+            // When:
+            viewModel.loadUpcomingMovies()
+            
+            // Then:
+            print("Çıktılar:", view.outputs) // Burada diziyi kontrol et
+            XCTAssertEqual(view.outputs.count, 3) // 3 eleman bekleniyor
+            
+            // SetLoading(true) bekleniyor
+            XCTAssertEqual(view.outputs[0], .setLoading(true))
+            
+            // SetLoading(false) bekleniyor
+            XCTAssertEqual(view.outputs[1], .setLoading(false))
+            
+            let expectedMovies = [movie1, movie2]
+            
+            // Movielist bekleniyor
+            XCTAssertEqual(view.outputs[2], .movielist(expectedMovies))
+        }
 
+
+
+
+
+    // Mock View: ViewModel'in çıktıları ile etkileşimde bulunan sınıf
+    private class MockView: MovieViewModelDelegate {
+        func navigate(to route: TmdbMovieApp.MovieViewRoute) {
+            //TODO
+        }
+        
+    
+   var outputs: [MovieViewModelOutput] = []
+        
+        func handleViewModelOutput(_ output: MovieViewModelOutput) {
+            outputs.append(output)
+        }
+    }
+
+    
     func testExample() throws {
         let bundle = Bundle(for: TmdbMovieAppTests.self)
         guard let url = bundle.url(forResource: "movie", withExtension: "json") else { return }
@@ -23,5 +77,6 @@ final class TmdbMovieAppTests: XCTestCase {
         XCTAssertEqual(movie.posterPath, "/63xYQj1BwRFielxsBDXvHIJyXVm.jpg")
     }
 
+    
 
 }
