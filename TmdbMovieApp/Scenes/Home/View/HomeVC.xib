@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeVC" customModule="TmdbMovieApp" customModuleProvider="target">
             <connections>
-                <outlet property="pageControl" destination="Z8g-a2-cMl" id="QJU-Xb-cGj"/>
+                <outlet property="pageControl" destination="iC7-7U-ZCX" id="lPe-rS-j9F"/>
                 <outlet property="sliderCollectionView" destination="Wd8-ry-5e7" id="t0N-AI-6ru"/>
                 <outlet property="tableView" destination="h00-9j-ooM" id="fBa-V9-f5T"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -21,14 +21,15 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="h00-9j-ooM">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="h00-9j-ooM">
                     <rect key="frame" x="0.0" y="292" width="393" height="560"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="560" id="3v9-2h-om4"/>
+                    </constraints>
                 </tableView>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Wd8-ry-5e7">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Wd8-ry-5e7">
                     <rect key="frame" x="0.0" y="0.0" width="393" height="295"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Tfr-8a-dc4">
                         <size key="itemSize" width="128" height="128"/>
@@ -37,13 +38,22 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
-                <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Z8g-a2-cMl">
-                    <rect key="frame" x="21" y="258" width="351" height="26"/>
+                <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="iC7-7U-ZCX">
+                    <rect key="frame" x="16" y="258" width="361" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </pageControl>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="h00-9j-ooM" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="9to-5r-6u7"/>
+                <constraint firstItem="h00-9j-ooM" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="TGH-5c-Zst"/>
+                <constraint firstItem="Wd8-ry-5e7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="b5Z-f4-emp"/>
+                <constraint firstAttribute="bottom" secondItem="h00-9j-ooM" secondAttribute="bottom" id="dZz-Sp-ZEY"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Wd8-ry-5e7" secondAttribute="bottom" constant="523" id="hSd-EH-aVX"/>
+                <constraint firstItem="Wd8-ry-5e7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="iF0-If-PT7"/>
+                <constraint firstItem="Wd8-ry-5e7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="lH0-Nf-H7I"/>
+            </constraints>
             <point key="canvasLocation" x="-16.030534351145036" y="19.718309859154932"/>
         </view>
     </objects>

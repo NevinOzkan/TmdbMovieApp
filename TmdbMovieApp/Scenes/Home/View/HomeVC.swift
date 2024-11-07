@@ -68,6 +68,14 @@ class HomeVC: UIViewController {
         
         pageControl.numberOfPages = nowPlayingMovies.count
         pageControl.currentPage = 0
+        
+        // pageControl görünürlüğünü ve konumlandırmasını ayarla
+        pageControl.isHidden = false
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: sliderCollectionView.centerXAnchor),
+            pageControl.topAnchor.constraint(equalTo: sliderCollectionView.bottomAnchor, constant: -30)
+        ])
     }
 }
 
@@ -84,6 +92,8 @@ extension HomeVC: MovieViewModelDelegate {
             self.nowPlayingMovies = movieList
             tableView.reloadData()
             sliderCollectionView.reloadData()
+            
+            pageControl.numberOfPages = nowPlayingMovies.count
             
         }
     }
