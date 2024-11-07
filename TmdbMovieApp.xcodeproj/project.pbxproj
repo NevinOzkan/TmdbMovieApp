@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A61AF3E32CDA3B530089C9C3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A61AF3E22CDA3B530089C9C3 /* Alamofire */; };
+		A6BB2E232CDCACA200D13CD2 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = A6BB2E222CDCACA200D13CD2 /* SDWebImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6BB2E232CDCACA200D13CD2 /* SDWebImage in Frameworks */,
 				A61AF3E32CDA3B530089C9C3 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +133,7 @@
 			name = TmdbMovieApp;
 			packageProductDependencies = (
 				A61AF3E22CDA3B530089C9C3 /* Alamofire */,
+				A6BB2E222CDCACA200D13CD2 /* SDWebImage */,
 			);
 			productName = TmdbMovieApp;
 			productReference = A6D9D8142CDA12890026D89F /* TmdbMovieApp.app */;
@@ -216,6 +219,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				A61AF3E12CDA3B530089C9C3 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				A6BB2E212CDCACA200D13CD2 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A6D9D8152CDA12890026D89F /* Products */;
@@ -586,6 +590,14 @@
 				minimumVersion = 5.10.1;
 			};
 		};
+		A6BB2E212CDCACA200D13CD2 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.20.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -593,6 +605,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A61AF3E12CDA3B530089C9C3 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		A6BB2E222CDCACA200D13CD2 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A6BB2E212CDCACA200D13CD2 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
