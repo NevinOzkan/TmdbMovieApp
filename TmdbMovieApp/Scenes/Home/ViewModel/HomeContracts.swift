@@ -10,7 +10,7 @@ import Foundation
 //  View, bu protokolü benimseyen bir ViewModel ile etkileşimde bulunur.
 protocol MovieViewModelProtocol {
     var delegate: MovieViewModelDelegate? { get set }
-    func loadUpcomingMovies()
+    func loadUpcomingMovies(page: Int)
     func loadNowPlayingMovies()
     func selectMovie(at index: Int)
 }
@@ -19,7 +19,8 @@ protocol MovieViewModelProtocol {
 enum MovieViewModelOutput: Equatable {
     case updateTitle(String)
     case setLoading(Bool)
-    case movielist([Movie])
+    case updateUpcomingMovies([Movie])
+    case updateNowPlayingMovies([Movie])
 }
 
 // ViewModel ile  View  arasındaki iletişimi tanımlar.

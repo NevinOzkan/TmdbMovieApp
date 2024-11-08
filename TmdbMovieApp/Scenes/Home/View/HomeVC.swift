@@ -17,6 +17,7 @@ class HomeVC: UIViewController {
     var upcomingMovies: [Movie] = []
     var nowPlayingMovies: [Movie] = []
     let service: MovieServiceProtocol = MovieService()
+    var currentPage = 1
     
     // viewModel'i burada başlatıldı
     var viewModel: MovieViewModelProtocol! {
@@ -65,7 +66,11 @@ class HomeVC: UIViewController {
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
         
-        viewModel.loadUpcomingMovies()
+        // Verileri çekmeden önce dizileri boşaltın
+        upcomingMovies.removeAll()
+        nowPlayingMovies.removeAll()
+        
+        viewModel.loadUpcomingMovies(page: 1)
         viewModel.loadNowPlayingMovies()
         
         pageControl.numberOfPages = nowPlayingMovies.count
@@ -82,22 +87,22 @@ class HomeVC: UIViewController {
 }
 
 extension HomeVC: MovieViewModelDelegate {
-    func handleViewModelOutput(_ output: MovieViewModelOutput) {
-        switch output {
-        case .updateTitle(let title):
-            self.title = title
-        case .setLoading(let isLoading):
-            break //TODO
-        case .movielist(let movieList):
-            self.movieList = movieList
-            self.upcomingMovies = movieList
-            self.nowPlayingMovies = movieList
-            tableView.reloadData()
-            sliderCollectionView.reloadData()
-            
-            pageControl.numberOfPages = nowPlayingMovies.count
+        func handleViewModelOutput(_ output: MovieViewModelOutput) {
+            switch output {
+            case .updateTitle(let title):
+                self.title = title
+            case .setLoading(let isLoading):
+                // Handle loading state if necessary
+                break
+            case .updateUpcomingMovies(let movieList):
+                self.upcomingMovies = movieList
+                tableView.reloadData()
+            case .updateNowPlayingMovies(let movieList):
+                self.nowPlayingMovies = movieList
+                sliderCollectionView.reloadData()
+                pageControl.numberOfPages = nowPlayingMovies.count
+            }
         }
-    }
     
     func navigate(to route: MovieViewRoute) {
         switch route {
@@ -134,6 +139,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
+    
     
 }
 

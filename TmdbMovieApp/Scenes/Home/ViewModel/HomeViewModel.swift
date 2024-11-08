@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import Alamofire
 
 class HomeViewModel: MovieViewModelProtocol {
+  
     
     var delegate: MovieViewModelDelegate?
     private let service: MovieServiceProtocol
@@ -16,11 +16,12 @@ class HomeViewModel: MovieViewModelProtocol {
     private var nowPlayingMovies: [Movie] = []
     private var upcomingMovies: [Movie] = []
     
+    
     init(service: MovieServiceProtocol) {
         self.service = service
     }
       
-    func loadUpcomingMovies() {
+    func loadUpcomingMovies(page: Int) {
         notify(.setLoading(true))
         
         service.fetchUpcomingMovies { [weak self] result in
@@ -32,7 +33,7 @@ class HomeViewModel: MovieViewModelProtocol {
                 print("Gelen Upcoming Movies:", response)
                 
                 self.upcomingMovies = response.results
-                self.notify(.movielist(self.upcomingMovies))
+                self.notify(.updateUpcomingMovies(self.upcomingMovies)) // Sadece upcomingMovies ile notify
                 
             case .failure(let error):
                 print("API Fetch Hatası: \(error.localizedDescription)")
@@ -52,13 +53,14 @@ class HomeViewModel: MovieViewModelProtocol {
                 print("Gelen Now Playing Movies:", response)
                 
                 self.nowPlayingMovies = response.results
-                self.notify(.movielist(self.nowPlayingMovies))
+                self.notify(.updateNowPlayingMovies(self.nowPlayingMovies)) // Sadece nowPlayingMovies ile notify
                 
             case .failure(let error):
                 print("API Fetch Hatası: \(error.localizedDescription)")
             }
         }
     }
+    
     
     func selectMovie(at index: Int) {
         let movie = nowPlayingMovies[index]

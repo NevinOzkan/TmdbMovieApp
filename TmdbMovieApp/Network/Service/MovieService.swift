@@ -16,7 +16,8 @@ public protocol MovieServiceProtocol {
 
 public class MovieService: MovieServiceProtocol {
     
-    public var movies: [Movie] = []
+    public var nowPlayingMovies: [Movie] = []
+    public var upcomingMovies: [Movie] = []
     var currentPage: Int = 1
     
     public enum Error: Swift.Error {
@@ -28,7 +29,6 @@ public class MovieService: MovieServiceProtocol {
     
     public func fetchNowPlayingMovies(completion: @escaping (Result<MoviesResponse>) -> Void) {
         let urlString = "https://api.themoviedb.org/3/movie/now_playing?api_key=1ae0a7f53c245e3bc03196612d1e663a&language=en-US&region=US&page=\(currentPage)"
-            
         
         AF.request(urlString).responseData { response in
             switch response.result {
@@ -52,7 +52,6 @@ public class MovieService: MovieServiceProtocol {
         }
     }
 
-    
     public func fetchUpcomingMovies(completion: @escaping (Result<MoviesResponse>) -> Void) {
         let urlString = "https://api.themoviedb.org/3/movie/upcoming?api_key=1ae0a7f53c245e3bc03196612d1e663a&language=en-US&region=US&page=\(currentPage)"
         
@@ -66,7 +65,6 @@ public class MovieService: MovieServiceProtocol {
                     let moviesResponse = try decoder.decode(MoviesResponse.self, from: data)
                     completion(.success(moviesResponse))
                     
-                    // Sayfa değerini artır
                     self.currentPage += 1
                 } catch {
                     print("Decoding error: \(error)")

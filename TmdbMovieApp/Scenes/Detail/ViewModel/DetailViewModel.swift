@@ -25,7 +25,7 @@ class DetailViewModel: DetailViewModelProtocol {
         delegate?.showUpcomingMovies(movie)
         
         // Ayrıca `upcomingMovies`'i çekmek isterseniz, bu kısmı da kullanabilirsiniz.
-        service.fetchUpcomingMovies { [weak self] result in
+        service.fetchUpcomingMovies() { [weak self] result in
             guard let self = self else { return }
             
             switch result {
