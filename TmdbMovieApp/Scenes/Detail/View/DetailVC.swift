@@ -30,11 +30,13 @@ class DetailVC: UIViewController {
 extension DetailVC: DetailViewModelDelegate {
     func showUpcomingMovies(_ movie: Movie) {
         movieTitleLabel.text = movie.title
-        voteLabel.text = "Puan: \(movie.voteAverage ?? 0)/10"
-        dateLabel.text = "Çıkış Tarihi: \(movie.releaseDate ?? "Bilgi Yok")"
+        voteLabel.text = "\(movie.voteAverage ?? 0)/10"
+        
+        // Tarih formatını ayarlıyoruz
+        dateLabel.text = DateFormatterHelper.formattedDate(from: movie.releaseDate ?? "Bilgi Yok")
+        
         overviewTextView.text = movie.overview ?? "Özet mevcut değil"
         
-        // Film görselini yüklüyoruz (varsa)
         if let imageUrl = movie.posterPath {
             let fullImageUrl = "https://image.tmdb.org/t/p/w500\(imageUrl)"
             imageView.sd_setImage(with: URL(string: fullImageUrl), placeholderImage: UIImage(named: "placeholder"))
