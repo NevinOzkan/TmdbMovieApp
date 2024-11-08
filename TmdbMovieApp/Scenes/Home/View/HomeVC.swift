@@ -18,7 +18,7 @@ class HomeVC: UIViewController {
     var nowPlayingMovies: [Movie] = []
     let service: MovieServiceProtocol = MovieService()
     
-    // viewModel'i burada başlatabilirsiniz
+    // viewModel'i burada başlatıldı
     var viewModel: MovieViewModelProtocol! {
         didSet {
             viewModel.delegate = self
@@ -27,6 +27,8 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         if viewModel == nil {
             viewModel = HomeViewModel(service: service)
@@ -52,7 +54,7 @@ class HomeVC: UIViewController {
         if let layout = sliderCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 0
-            sliderCollectionView.isPagingEnabled = true // Bu satırı ekledik
+            sliderCollectionView.isPagingEnabled = true
         }
     }
     
@@ -69,7 +71,7 @@ class HomeVC: UIViewController {
         pageControl.numberOfPages = nowPlayingMovies.count
         pageControl.currentPage = 0
         
-        // pageControl görünürlüğünü ve konumlandırmasını ayarla
+        // pageControl görünürlüğünü ve konumlandırması
         pageControl.isHidden = false
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -94,14 +96,19 @@ extension HomeVC: MovieViewModelDelegate {
             sliderCollectionView.reloadData()
             
             pageControl.numberOfPages = nowPlayingMovies.count
-            
         }
     }
     
     func navigate(to route: MovieViewRoute) {
-        //TODO
+        switch route {
+        case .detail(let viewModel):
+            let detailVC = DetailVC(nibName: "DetailVC", bundle: Bundle.main)
+            detailVC.viewModel = viewModel // Detay ViewModel'ini bağla
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
     }
 }
+
 
 extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -119,9 +126,15 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.selectMovie(at: indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
+    
 }
 
 extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -139,13 +152,11 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         
         return cell
     }
-    
-    // Hücre boyutlarını ayarlayın
+   
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     
-    // Yatay boşluk
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }

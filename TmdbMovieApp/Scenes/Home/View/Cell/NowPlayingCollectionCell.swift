@@ -17,8 +17,7 @@ class NowPlayingCollectionCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-      
+
     }
     
     func prepareCell(with model: Movie) {

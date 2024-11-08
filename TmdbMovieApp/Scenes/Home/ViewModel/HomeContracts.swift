@@ -30,6 +30,5 @@ protocol MovieViewModelDelegate: AnyObject {
 
 // view modelin hangi yönlendirmeleri yapması gerektiğini belirtir.
 enum MovieViewRoute {
-   //
+    case detail(viewModel: DetailViewModelProtocol)
 }
-

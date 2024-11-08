@@ -19,7 +19,7 @@ class HomeViewModel: MovieViewModelProtocol {
     init(service: MovieServiceProtocol) {
         self.service = service
     }
-    
+      
     func loadUpcomingMovies() {
         notify(.setLoading(true))
         
@@ -32,7 +32,7 @@ class HomeViewModel: MovieViewModelProtocol {
                 print("Gelen Upcoming Movies:", response)
                 
                 self.upcomingMovies = response.results
-                self.notify(.movielist(self.upcomingMovies))  // Movielist çıktısını bildir
+                self.notify(.movielist(self.upcomingMovies))
                 
             case .failure(let error):
                 print("API Fetch Hatası: \(error.localizedDescription)")
@@ -52,7 +52,7 @@ class HomeViewModel: MovieViewModelProtocol {
                 print("Gelen Now Playing Movies:", response)
                 
                 self.nowPlayingMovies = response.results
-                self.notify(.movielist(self.nowPlayingMovies))  // Movielist çıktısını bildir
+                self.notify(.movielist(self.nowPlayingMovies))
                 
             case .failure(let error):
                 print("API Fetch Hatası: \(error.localizedDescription)")
@@ -61,8 +61,16 @@ class HomeViewModel: MovieViewModelProtocol {
     }
     
     func selectMovie(at index: Int) {
-        //TODO
+        let movie = nowPlayingMovies[index]
+
+        // Movie ve service parametrelerini geçiriyoruz
+        let viewModel = DetailViewModel(movie: movie, service: service)
+
+        // DetailViewModel'i doğru şekilde başlatıyoruz
+        let route = MovieViewRoute.detail(viewModel: viewModel)
+        delegate?.navigate(to: route)
     }
+
     
     private func notify(_ output: MovieViewModelOutput) {
         delegate?.handleViewModelOutput(output)

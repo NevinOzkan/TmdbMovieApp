@@ -6,24 +6,40 @@
 //
 
 import UIKit
+import SDWebImage
 
 class DetailVC: UIViewController {
 
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var voteLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var overviewTextView: UITextView!
+    
+    var viewModel: DetailViewModelProtocol!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        viewModel.delegate = self
+        viewModel.load()
+       
     }
+}
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension DetailVC: DetailViewModelDelegate {
+    func showUpcomingMovies(_ movie: Movie) {
+        movieTitleLabel.text = movie.title
+        voteLabel.text = "Puan: \(movie.voteAverage ?? 0)/10"
+        dateLabel.text = "Çıkış Tarihi: \(movie.releaseDate ?? "Bilgi Yok")"
+        overviewTextView.text = movie.overview ?? "Özet mevcut değil"
+        
+        // Film görselini yüklüyoruz (varsa)
+        if let imageUrl = movie.posterPath {
+            let fullImageUrl = "https://image.tmdb.org/t/p/w500\(imageUrl)"
+            imageView.sd_setImage(with: URL(string: fullImageUrl), placeholderImage: UIImage(named: "placeholder"))
+        } else {
+            imageView.image = UIImage(named: "placeholder")
+        }
     }
-    */
-
 }
