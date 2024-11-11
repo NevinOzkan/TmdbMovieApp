@@ -60,16 +60,19 @@ extension HomeVC: MovieViewModelDelegate {
                 self.tableView.reloadData()
             }
         case .updateNowPlayingMovies(_): break
-           //TODO
+            //TODO
         }
     }
     
     func navigate(to route: MovieViewRoute) {
-        //TODO
+               switch route {
+               case .detail(let viewModel):
+                   let detailVC = DetailVC(nibName: "DetailVC", bundle: Bundle.main)
+                   detailVC.viewModel = viewModel // Detay ViewModel'ini bağla
+                   self.navigationController?.pushViewController(detailVC, animated: true)
+               }
+        }
     }
-    
-    
-}
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -90,6 +93,18 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = upcomingMovies[indexPath.row]
+        let detailViewModel = DetailViewModel(movie: movie, service: service)
+        
+        let detailVC = DetailVC(nibName: "DetailVC", bundle: Bundle.main)
+        detailVC.viewModel = detailViewModel  // Detay ViewModel'ini bağla
+        self.navigationController?.pushViewController(detailVC, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     // Sayfanın sonuna yaklaşıldığında yeni veri yüklemeyi tetikle
        func scrollViewDidScroll(_ scrollView: UIScrollView) {
            let contentHeight = scrollView.contentSize.height
