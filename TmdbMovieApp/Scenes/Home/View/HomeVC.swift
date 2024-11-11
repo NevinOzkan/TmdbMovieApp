@@ -9,10 +9,18 @@ import UIKit
 
 class HomeVC: UIViewController {
 
+    let service: MovieServiceProtocol = MovieService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        service.fetchUpcomingMovies { (result) in
+            print(result)
+        }
+        service.fetchNowPlayingMovies { (result) in
+            print(result)
+        }
+        
     }
 
 }
