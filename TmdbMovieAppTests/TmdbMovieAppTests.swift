@@ -10,20 +10,19 @@ import XCTest
 
 final class TmdbMovieAppTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func testParsing() throws {
+        
+        let bundle = Bundle(for: TmdbMovieAppTests.self)
+              guard let url = bundle.url(forResource: "movie", withExtension: "json") else { return }
+              let data = try Data(contentsOf: url)
+              let decoder = Decoders.releaseDateDecoder
+              let movie = try decoder.decode(Movie.self, from: data)
+       
+              XCTAssertEqual(movie.id, 1034541)
+              XCTAssertEqual(movie.overview, "Five years after surviving Art the Clown's Halloween massacre, Sienna and Jonathan are still struggling to rebuild their shattered lives. As the holiday season approaches, they try to embrace the Christmas spirit and leave the horrors of the past behind. But just when they think they're safe, Art returns, determined to turn their holiday cheer into a new nightmare. The festive season quickly unravels as Art unleashes his twisted brand of terror, proving that no holiday is safe.")
+              XCTAssertEqual(movie.title, "Terrifier 3")
+              XCTAssertEqual(movie.posterPath, "/63xYQj1BwRFielxsBDXvHIJyXVm.jpg")
     }
 
     func testPerformanceExample() throws {
