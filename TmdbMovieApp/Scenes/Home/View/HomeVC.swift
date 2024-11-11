@@ -9,6 +9,10 @@ import UIKit
 
 class HomeVC: UIViewController {
 
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    
     let service: MovieServiceProtocol = MovieService()
     
     override func viewDidLoad() {
@@ -23,4 +27,17 @@ class HomeVC: UIViewController {
         
     }
 
+}
+
+
+extension HomeVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        <#code#>
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+    
+    
 }
