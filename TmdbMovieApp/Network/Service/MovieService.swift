@@ -16,6 +16,9 @@ public protocol MovieServiceProtocol {
 
 public class MovieService: MovieServiceProtocol {
     
+       public var nowPlayingMovies: [Movie] = []
+       public var upcomingMovies: [Movie] = []
+    
     public enum Error: Swift.Error {
            case serializationError(internal: Swift.Error)
            case networkError(internal: Swift.Error)

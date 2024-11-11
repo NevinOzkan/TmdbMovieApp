@@ -9,8 +9,56 @@ import XCTest
 @testable import TmdbMovieApp
 
 final class TmdbMovieAppTests: XCTestCase {
+    
+        private var view: MockView!
+        private var viewModel: HomeViewModel!
+        private var service: MockMoviesService!
+        
+        override func setUpWithError() throws {
+            service = MockMoviesService()
+            viewModel = HomeViewModel(service: service)
+            view = MockView()
+            viewModel.delegate = view
+        }
 
+  
+    func testLoad() throws {
+        func testLoad() throws {
+            // Given:
+            let movie1 = try ResourceLoader.loadMovie(resource: .movie1)
+            let movie2 = try ResourceLoader.loadMovie(resource: .movie2)
+            service.movies = [movie1, movie2]
+            
+            // When:
+            viewModel.loadUpcomingMovies(page: 0)
+            
+            // Then:
+            XCTAssertEqual(view.outputs.count, 4)
+            
+            // Çıktıları adım adım kontrol edelim
+            for (index, output) in view.outputs.enumerated() {
+                print("Output \(index): \(output)")
+            }
+        }
+    }
 
+    private class MockView: MovieViewModelDelegate {
+        func navigate(to route: TmdbMovieApp.MovieViewRoute) {
+            //TODO
+        }
+        
+        
+        var outputs: [MovieViewModelOutput] = []
+        
+        func handleViewModelUpcomingOutput(_ output: TmdbMovieApp.MovieViewModelOutput) {
+            outputs.append(output)
+        }
+        
+        func handleViewModelNowPlayingOutput(_ output: TmdbMovieApp.MovieViewModelOutput) {
+            outputs.append(output)
+        }
+    }
+    
     func testParsing() throws {
         
         let bundle = Bundle(for: TmdbMovieAppTests.self)
@@ -25,11 +73,5 @@ final class TmdbMovieAppTests: XCTestCase {
               XCTAssertEqual(movie.posterPath, "/63xYQj1BwRFielxsBDXvHIJyXVm.jpg")
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
 
 }

@@ -67,7 +67,6 @@ class HomeViewModel: MovieViewModelProtocol {
             
             
             private func notify(_ output: MovieViewModelOutput) {
-                delegate?.handleViewModelUpcomingOutput(output)
-                delegate?.handleViewModelNowPlayingOutput(output)
+                delegate?.handleViewModelOutput(output)
             }
 }

@@ -1,0 +1,22 @@
+
+{
+  "adult": false,
+  "backdrop_path": "/7h6TqPB3ESmjuVbxCxAeB1c9OB1.jpg",
+  "genre_ids": [
+    27,
+    18,
+    878
+  ],
+  "id": 933260,
+  "original_language": "en",
+  "original_title": "The Substance",
+  "overview": "A fading celebrity decides to usea black market drug, a cell-replicating substance that temporarily creates a younger, better version of herself.",
+  "popularity": 2847.597,
+  "poster_path": "/lqoMzCcZYEFK729d6qzt349fB4o.jpg",
+  "release_date": "2024-09-07",
+  "title": "The Substance",
+  "video": false,
+  "vote_average": 7.3,
+  "vote_count": 835
+}
+

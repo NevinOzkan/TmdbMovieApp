@@ -26,8 +26,7 @@ enum MovieViewModelOutput: Equatable {
 
 // ViewModel ile  View  arasındaki iletişimi tanımlar.
 protocol MovieViewModelDelegate: AnyObject {
-    func handleViewModelUpcomingOutput(_ output: MovieViewModelOutput)
-    func handleViewModelNowPlayingOutput(_ output: MovieViewModelOutput)
+    func handleViewModelOutput(_ output: MovieViewModelOutput)
     func navigate(to route: MovieViewRoute)
 }
 
