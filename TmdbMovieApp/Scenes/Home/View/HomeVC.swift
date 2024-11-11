@@ -10,9 +10,13 @@ import UIKit
 class HomeVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var sliderCollectionView: UICollectionView!
+
+    
     
     var movie: [Movie] = []
     var upcomingMovies: [Movie] = []
+    var nowPlayingMovies: [Movie] = []
     let service: MovieServiceProtocol = MovieService()
     var viewModel: MovieViewModelProtocol!
     var currentPage = 1 // Sayfa numarasını takip etmek için
@@ -20,6 +24,8 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         if viewModel == nil {
             viewModel = HomeViewModel(service: service)
@@ -29,16 +35,31 @@ class HomeVC: UIViewController {
         registerCells()
         
         setupUI()
+        setupSliderCollectionViewLayout()
     }
     
     private func registerCells() {
         let nib = UINib(nibName: "UpcomingCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "UpcomingCell")
+        
+        let collectionNib = UINib(nibName: "NowPlayingCollectionCell", bundle: nil)
+        sliderCollectionView.register(collectionNib, forCellWithReuseIdentifier: "NowPlayingCollectionCell")
+    }
+    
+    private func setupSliderCollectionViewLayout() {
+        if let layout = sliderCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 0
+            sliderCollectionView.isPagingEnabled = true
+        }
     }
     
     private func setupUI() {
         tableView.dataSource = self
         tableView.delegate = self
+        
+        sliderCollectionView.delegate = self
+        sliderCollectionView.dataSource = self
         
         viewModel.loadUpcomingMovies(page: currentPage)
         viewModel.loadNowPlayingMovies()
@@ -59,8 +80,12 @@ extension HomeVC: MovieViewModelDelegate {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
-        case .updateNowPlayingMovies(_): break
-            //TODO
+        case .updateNowPlayingMovies(let movieList): // Burada movieList parametresini doğru şekilde kullanıyoruz
+            print("NowPlaying Movies: \(movieList)")
+            self.nowPlayingMovies.append(contentsOf: movieList) // Yeni "now playing" filmleri mevcut listeye ekleyin
+            DispatchQueue.main.async {
+                self.sliderCollectionView.reloadData()
+            }
         }
     }
     
@@ -121,5 +146,32 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
                }
            }
        }
+    
+}
+
+extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return nowPlayingMovies.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCollectionCell", for: indexPath) as? NowPlayingCollectionCell else {
+            fatalError("Error : NowPlayingCollectionCell")
+        }
+        
+        let movie = nowPlayingMovies[indexPath.row]
+        cell.prepareCell(with: movie)
+        
+        return cell
+    }
+    
+    
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+     }
+     
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+         return 0
+     }
     
 }
