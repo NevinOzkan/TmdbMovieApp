@@ -15,7 +15,8 @@ class HomeVC: UIViewController {
     var upcomingMovies: [Movie] = []
     let service: MovieServiceProtocol = MovieService()
     var viewModel: MovieViewModelProtocol!
-    
+    var currentPage = 1 // Sayfa numarasını takip etmek için
+    var isLoading = false // Yeni veriler yüklenirken birden fazla yükleme yapılmasını engellemek için
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +40,7 @@ class HomeVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        viewModel.loadUpcomingMovies(page: 1)
+        viewModel.loadUpcomingMovies(page: currentPage)
         viewModel.loadNowPlayingMovies()
         
         
@@ -54,7 +55,7 @@ extension HomeVC: MovieViewModelDelegate {
             break
         case .updateUpcomingMovies(let movieList):
             print("Upcoming Movies: \(movieList)")
-            self.upcomingMovies = movieList
+            self.upcomingMovies.append(contentsOf: movieList) // Yeni filmleri mevcut listeye ekleyin
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -89,5 +90,21 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
+    // Sayfanın sonuna yaklaşıldığında yeni veri yüklemeyi tetikle
+       func scrollViewDidScroll(_ scrollView: UIScrollView) {
+           let contentHeight = scrollView.contentSize.height
+           let currentOffset = scrollView.contentOffset.y
+           let scrollViewHeight = scrollView.frame.size.height
+           
+           // Tablonun sonuna yaklaşınca yeni verileri yükle
+           if currentOffset + scrollViewHeight >= contentHeight - 50 {
+               // Yalnızca yeni veri yükleniyorsa tetiklesin
+               if !isLoading {
+                   isLoading = true
+                   currentPage += 1
+                   viewModel.loadUpcomingMovies(page: currentPage)
+               }
+           }
+       }
     
 }
