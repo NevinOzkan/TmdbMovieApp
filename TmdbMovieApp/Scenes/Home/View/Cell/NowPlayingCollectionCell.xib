@@ -19,16 +19,14 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O95-TX-rzf">
                         <rect key="frame" x="0.0" y="0.0" width="306" height="176"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Overview" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Whz-ik-1CB">
-                        <rect key="frame" x="16" y="148" width="275" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Whz-ik-1CB">
+                        <rect key="frame" x="15" y="131.66666666666666" width="276" height="14.333333333333343"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cfc-vI-5bl">
-                        <rect key="frame" x="16" y="123" width="275" height="19"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cfc-vI-5bl">
+                        <rect key="frame" x="15" y="97.666666666666671" width="276" height="24"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -39,6 +37,12 @@
             <constraints>
                 <constraint firstItem="O95-TX-rzf" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="6hb-PO-tCi"/>
                 <constraint firstAttribute="trailing" secondItem="O95-TX-rzf" secondAttribute="trailing" id="MrW-wl-t0g"/>
+                <constraint firstItem="Whz-ik-1CB" firstAttribute="top" secondItem="Cfc-vI-5bl" secondAttribute="bottom" constant="10" id="Q4q-0W-KoT"/>
+                <constraint firstAttribute="trailing" secondItem="Cfc-vI-5bl" secondAttribute="trailing" constant="15" id="RDY-uT-AVP"/>
+                <constraint firstAttribute="bottom" secondItem="Whz-ik-1CB" secondAttribute="bottom" constant="30" id="cIu-Hb-1D8"/>
+                <constraint firstItem="Whz-ik-1CB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="qWX-0i-UO4"/>
+                <constraint firstItem="Cfc-vI-5bl" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="t1B-cJ-zhL"/>
+                <constraint firstAttribute="trailing" secondItem="Whz-ik-1CB" secondAttribute="trailing" constant="15" id="tXA-HR-sF0"/>
                 <constraint firstAttribute="bottom" secondItem="O95-TX-rzf" secondAttribute="bottom" id="vvK-jF-hyD"/>
                 <constraint firstItem="O95-TX-rzf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="zOh-h3-FMy"/>
             </constraints>

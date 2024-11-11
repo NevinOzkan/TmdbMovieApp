@@ -11,7 +11,7 @@ class HomeVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var sliderCollectionView: UICollectionView!
-
+    @IBOutlet weak var pageControl: UIPageControl!
     
     
     var movie: [Movie] = []
@@ -36,6 +36,7 @@ class HomeVC: UIViewController {
         
         setupUI()
         setupSliderCollectionViewLayout()
+        
     }
     
     private func registerCells() {
@@ -64,9 +65,21 @@ class HomeVC: UIViewController {
         viewModel.loadUpcomingMovies(page: currentPage)
         viewModel.loadNowPlayingMovies()
         
+        pageControl.numberOfPages = nowPlayingMovies.count
+        pageControl.currentPage = 0
         
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(pageControl)
+            
+            NSLayoutConstraint.activate([
+                pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                pageControl.bottomAnchor.constraint(equalTo: sliderCollectionView.bottomAnchor, constant: -10)
+            ])
+       
+       
     }
 }
+
 extension HomeVC: MovieViewModelDelegate {
     func handleViewModelOutput(_ output: MovieViewModelOutput) {
         switch output {
@@ -85,6 +98,7 @@ extension HomeVC: MovieViewModelDelegate {
             self.nowPlayingMovies.append(contentsOf: movieList) // Yeni "now playing" filmleri mevcut listeye ekleyin
             DispatchQueue.main.async {
                 self.sliderCollectionView.reloadData()
+                self.pageControl.numberOfPages = self.nowPlayingMovies.count // Sayfa sayısını güncelle
             }
         }
     }
@@ -174,4 +188,12 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
          return 0
      }
     
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageIndex = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
+        
+        DispatchQueue.main.async {
+            self.pageControl.currentPage = pageIndex
+        }
+    }
 }
+
