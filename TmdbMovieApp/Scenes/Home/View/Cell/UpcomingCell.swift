@@ -25,7 +25,6 @@ class UpcomingCell: UITableViewCell {
     }
 
     func prepareCell(with model: Movie) {
-           // Başlık, açıklama ve tarih etiketlerine verileri atıyoruz
            titleLabel.text = model.title
            overviewLabel.text = model.overview
         

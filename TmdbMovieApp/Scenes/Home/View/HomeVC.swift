@@ -13,14 +13,14 @@ class HomeVC: UIViewController {
     @IBOutlet weak var sliderCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
     
-    
     var movie: [Movie] = []
     var upcomingMovies: [Movie] = []
     var nowPlayingMovies: [Movie] = []
     let service: MovieServiceProtocol = MovieService()
     var viewModel: MovieViewModelProtocol!
-    var currentPage = 1 // Sayfa numarasını takip etmek için
-    var isLoading = false // Yeni veriler yüklenirken birden fazla yükleme yapılmasını engellemek için
+    var currentPage = 1
+    var isLoading = false
+    var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ class HomeVC: UIViewController {
         
         setupUI()
         setupSliderCollectionViewLayout()
-        
+        setupRefreshControl()
     }
     
     private func registerCells() {
@@ -69,14 +69,30 @@ class HomeVC: UIViewController {
         pageControl.currentPage = 0
         
         pageControl.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(pageControl)
-            
-            NSLayoutConstraint.activate([
-                pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                pageControl.bottomAnchor.constraint(equalTo: sliderCollectionView.bottomAnchor, constant: -10)
-            ])
-       
-       
+        view.addSubview(pageControl)
+        
+        NSLayoutConstraint.activate([
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: sliderCollectionView.bottomAnchor, constant: -10)
+        ])
+    }
+    
+    
+    private func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        tableView.addSubview(refreshControl) // RefreshControl'u tableView'a ekliyoruz
+    }
+    
+    @objc private func refreshData() {
+        // Reset the current page and clear the current data arrays
+        currentPage = 1
+        upcomingMovies.removeAll()
+        nowPlayingMovies.removeAll()
+
+        // Start loading new data
+        viewModel.loadUpcomingMovies(page: currentPage)
+        viewModel.loadNowPlayingMovies()
     }
 }
 
@@ -85,20 +101,25 @@ extension HomeVC: MovieViewModelDelegate {
         switch output {
         case .updateTitle(let title):
             self.title = title
+            
         case .setLoading(_):
             break
+            
         case .updateUpcomingMovies(let movieList):
-            print("Upcoming Movies: \(movieList)")
-            self.upcomingMovies.append(contentsOf: movieList) // Yeni filmleri mevcut listeye ekleyin
+            self.upcomingMovies += movieList  // Yeni gelen verilerle mevcut verileri birleştiriyoruz
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+                self.isLoading = false // Veriler yüklendikten sonra isLoading'i false yapıyoruz
             }
-        case .updateNowPlayingMovies(let movieList): // Burada movieList parametresini doğru şekilde kullanıyoruz
-            print("NowPlaying Movies: \(movieList)")
-            self.nowPlayingMovies.append(contentsOf: movieList) // Yeni "now playing" filmleri mevcut listeye ekleyin
+            
+        case .updateNowPlayingMovies(let movieList):
+            self.nowPlayingMovies = movieList
             DispatchQueue.main.async {
                 self.sliderCollectionView.reloadData()
-                self.pageControl.numberOfPages = self.nowPlayingMovies.count // Sayfa sayısını güncelle
+                self.pageControl.numberOfPages = self.nowPlayingMovies.count
+                self.pageControl.currentPage = 0
+                self.refreshControl.endRefreshing()
             }
         }
     }
@@ -144,22 +165,21 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    // Sayfanın sonuna yaklaşıldığında yeni veri yüklemeyi tetikle
-       func scrollViewDidScroll(_ scrollView: UIScrollView) {
-           let contentHeight = scrollView.contentSize.height
-           let currentOffset = scrollView.contentOffset.y
-           let scrollViewHeight = scrollView.frame.size.height
-           
-           // Tablonun sonuna yaklaşınca yeni verileri yükle
-           if currentOffset + scrollViewHeight >= contentHeight - 50 {
-               // Yalnızca yeni veri yükleniyorsa tetiklesin
-               if !isLoading {
-                   isLoading = true
-                   currentPage += 1
-                   viewModel.loadUpcomingMovies(page: currentPage)
-               }
-           }
-       }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentHeight = scrollView.contentSize.height
+        let currentOffset = scrollView.contentOffset.y
+        let scrollViewHeight = scrollView.frame.size.height
+        
+        // Eğer kullanıcının kaydırdığı mesafe içerik yüksekliğine yaklaşıyorsa, yeni veriler yüklenebilir
+        if currentOffset + scrollViewHeight >= contentHeight - 50 {
+            if !isLoading {
+                isLoading = true // Yükleme başladığını işaret et
+                currentPage += 1 // Sayfa numarasını artır
+                viewModel.loadUpcomingMovies(page: currentPage) // Yeni verileri yükle
+            }
+        }
+    }
     
 }
 

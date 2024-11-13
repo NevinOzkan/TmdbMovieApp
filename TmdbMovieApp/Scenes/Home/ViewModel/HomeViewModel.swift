@@ -9,7 +9,6 @@ import Foundation
 
 class HomeViewModel: MovieViewModelProtocol {
     
-    
     var delegate: (any MovieViewModelDelegate)?
     private var movies: [Movie] = []
     private var nowPlayingMovies: [Movie] = []
@@ -51,7 +50,6 @@ class HomeViewModel: MovieViewModelProtocol {
                case .success(let response):
                    print("Gelen Now Playing Movies:", response)
                    
-                   // Filmleri ekleyerek güncelleme yap
                    self.nowPlayingMovies.append(contentsOf: response.results)
                    self.notify(.updateNowPlayingMovies(self.nowPlayingMovies))
                    
@@ -62,8 +60,22 @@ class HomeViewModel: MovieViewModelProtocol {
        }
             
             func selectMovie(at index: Int) {
-                //TODO
-            }
+                       guard index >= 0 && index < nowPlayingMovies.count else {
+                           print("Index out of range: \(index) - Movie count: \(nowPlayingMovies.count)")
+                           return
+                       }
+                       
+                       let movie = nowPlayingMovies[index]
+                       
+                       // Movie ve service parametrelerini geçiriyoruz
+                       let viewModel = DetailViewModel(movie: movie, service: service)
+
+                       // DetailViewModel'i başlat.
+                       let route = MovieViewRoute.detail(viewModel: viewModel)
+                       delegate?.navigate(to: route)
+                   }
+
+    
             
             
             private func notify(_ output: MovieViewModelOutput) {
