@@ -89,11 +89,13 @@ class HomeVC: UIViewController {
         upcomingMovies.removeAll()
         nowPlayingMovies.removeAll()
         
-        tableView.reloadData()
-        sliderCollectionView.reloadData()
-        
+        // Verilerin yeniden yüklenmesini sağlamak için viewModel'e çağrı yapıyoruz
         viewModel.loadUpcomingMovies(page: currentPage)
         viewModel.loadNowPlayingMovies()
+        
+        // Tabloyu ve koleksiyon görünümünü yeniden yüklüyoruz
+        tableView.reloadData()
+        sliderCollectionView.reloadData()
     }
 }
 
@@ -107,7 +109,7 @@ extension HomeVC: MovieViewModelDelegate {
             break
             
         case .updateUpcomingMovies(let movieList):
-            self.upcomingMovies = movieList
+            self.upcomingMovies.append(contentsOf: movieList)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
@@ -150,7 +152,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
@@ -166,22 +168,19 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentHeight = scrollView.contentSize.height
         let currentOffset = scrollView.contentOffset.y
         let scrollViewHeight = scrollView.frame.size.height
         
-        
         if currentOffset + scrollViewHeight >= contentHeight - 50 {
             if !isLoading {
                 isLoading = true
                 currentPage += 1
-                viewModel.loadUpcomingMovies(page: currentPage) 
+                viewModel.loadUpcomingMovies(page: currentPage) // Yeni sayfayı yükle
             }
         }
     }
-    
 }
 
 extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
