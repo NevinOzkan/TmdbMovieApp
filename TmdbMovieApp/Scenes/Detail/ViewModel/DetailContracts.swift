@@ -9,10 +9,9 @@ import Foundation
 
 protocol DetailViewModelProtocol {
     var delegate: DetailViewModelDelegate? { get set }
-    func load()
+    func load(movieId: Int)
 }
 
-//film detaylarının gösterimiyle ilgili geri bildirimleri işlemek için.
 protocol DetailViewModelDelegate: AnyObject {
-    func showUpcomingMovies(_ movie: Movie)
+        func showMovieDetails(_ movie: Movie)
 }

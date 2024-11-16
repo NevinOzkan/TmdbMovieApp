@@ -81,16 +81,17 @@ class HomeVC: UIViewController {
     private func setupRefreshControl() {
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        tableView.addSubview(refreshControl) // RefreshControl'u tableView'a ekliyoruz
+        tableView.addSubview(refreshControl)
     }
     
     @objc private func refreshData() {
-        // Reset the current page and clear the current data arrays
         currentPage = 1
         upcomingMovies.removeAll()
         nowPlayingMovies.removeAll()
-
-        // Start loading new data
+        
+        tableView.reloadData()
+        sliderCollectionView.reloadData()
+        
         viewModel.loadUpcomingMovies(page: currentPage)
         viewModel.loadNowPlayingMovies()
     }
@@ -106,13 +107,13 @@ extension HomeVC: MovieViewModelDelegate {
             break
             
         case .updateUpcomingMovies(let movieList):
-            self.upcomingMovies += movieList  // Yeni gelen verilerle mevcut verileri birleştiriyoruz
+            self.upcomingMovies = movieList
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
-                self.isLoading = false // Veriler yüklendikten sonra isLoading'i false yapıyoruz
+                self.isLoading = false
             }
-            
+
         case .updateNowPlayingMovies(let movieList):
             self.nowPlayingMovies = movieList
             DispatchQueue.main.async {
@@ -128,7 +129,7 @@ extension HomeVC: MovieViewModelDelegate {
                switch route {
                case .detail(let viewModel):
                    let detailVC = DetailVC(nibName: "DetailVC", bundle: Bundle.main)
-                   detailVC.viewModel = viewModel // Detay ViewModel'ini bağla
+                   detailVC.viewModel = viewModel
                    self.navigationController?.pushViewController(detailVC, animated: true)
                }
         }
@@ -159,7 +160,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         let detailViewModel = DetailViewModel(movie: movie, service: service)
         
         let detailVC = DetailVC(nibName: "DetailVC", bundle: Bundle.main)
-        detailVC.viewModel = detailViewModel  // Detay ViewModel'ini bağla
+        detailVC.viewModel = detailViewModel
         self.navigationController?.pushViewController(detailVC, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -171,12 +172,12 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         let currentOffset = scrollView.contentOffset.y
         let scrollViewHeight = scrollView.frame.size.height
         
-        // Eğer kullanıcının kaydırdığı mesafe içerik yüksekliğine yaklaşıyorsa, yeni veriler yüklenebilir
+        
         if currentOffset + scrollViewHeight >= contentHeight - 50 {
             if !isLoading {
-                isLoading = true // Yükleme başladığını işaret et
-                currentPage += 1 // Sayfa numarasını artır
-                viewModel.loadUpcomingMovies(page: currentPage) // Yeni verileri yükle
+                isLoading = true
+                currentPage += 1
+                viewModel.loadUpcomingMovies(page: currentPage) 
             }
         }
     }

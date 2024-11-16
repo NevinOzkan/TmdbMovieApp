@@ -22,12 +22,12 @@ class DetailVC: UIViewController {
         super.viewDidLoad()
         
         viewModel.delegate = self
-        viewModel.load()
+        viewModel.load(movieId: 1)
     }
 }
 
 extension DetailVC: DetailViewModelDelegate {
-    func showUpcomingMovies(_ movie: Movie) {
+    func showMovieDetails(_ movie: Movie) {
         movieTitleLabel.text = movie.title
         voteLabel.text = "\(movie.voteAverage)/10"
         
@@ -41,5 +41,6 @@ extension DetailVC: DetailViewModelDelegate {
         } else {
             imageView.image = UIImage(named: "placeholder")
         }
+        
     }
 }

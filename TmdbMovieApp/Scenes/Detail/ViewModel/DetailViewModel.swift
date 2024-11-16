@@ -14,13 +14,12 @@ class DetailViewModel: DetailViewModelProtocol {
     var movie: Movie
     
     
-     init(movie: Movie, service: MovieServiceProtocol) {
-         self.movie = movie
-         self.service = service
-     }
-    
-    func load() {
-        delegate?.showUpcomingMovies(movie)
+    init(movie: Movie, service: MovieServiceProtocol) {
+        self.movie = movie
+        self.service = service
     }
     
+    func load(movieId: Int) {
+        delegate?.showMovieDetails(movie)
+    }
 }

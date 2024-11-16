@@ -8,14 +8,15 @@
 import Foundation
 
 public struct MoviesResponse: Decodable {
-    public let dates: Dates
+    public let dates: Dates?
     public let page: Int
     public let results: [Movie]
     
-    public init(results: [Movie]) {
+    // `init` metodu, varsayılan değerlerle manuel oluşturulabilir.
+    public init(dates: Dates? = nil, page: Int = 1, results: [Movie]) {
+        self.dates = dates
+        self.page = page
         self.results = results
-        self.dates = Dates(maximum: "", minimum: "")
-        self.page = 1
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -28,4 +29,10 @@ public struct MoviesResponse: Decodable {
 public struct Dates: Decodable {
     public let maximum: String
     public let minimum: String
+    
+    // Varsayılan bir `init` metodu
+    public init(maximum: String, minimum: String) {
+        self.maximum = maximum
+        self.minimum = minimum
+    }
 }

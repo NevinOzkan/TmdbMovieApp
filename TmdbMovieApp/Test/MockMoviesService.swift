@@ -9,7 +9,7 @@ import Foundation
 
 
 final class MockMoviesService: MovieServiceProtocol {
-    
+
     var movies: [Movie] = []
     
     func fetchNowPlayingMovies(completion: @escaping (Result<MoviesResponse>) -> Void) {
@@ -22,4 +22,8 @@ final class MockMoviesService: MovieServiceProtocol {
         completion(.success(moviesResponse))
     }
     
+    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<MoviesResponse>) -> Void) {
+        let moviesResponse = MoviesResponse(results: movies)
+        completion(.success(moviesResponse))
+    }
 }
