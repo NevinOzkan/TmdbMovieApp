@@ -156,17 +156,34 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = upcomingMovies[indexPath.row]
-        let detailViewModel = DetailViewModel(movie: movie, service: service)
+        let movie = upcomingMovies[indexPath.row] // Seçilen film
+        guard let movieID = movie.id else {
+            print("Movie ID is not set!") // Hata kontrolü
+            return
+        }
+
+        // Servisi başlatıyoruz
+        let service = MovieService()
         
+        // DetailViewModel'i sadece service ile başlatıyoruz
+        let detailViewModel = DetailViewModel(service: service)
+        
+        // Movie ID'sini kullanarak load fonksiyonunu çağırıyoruz
+        detailViewModel.load(movieID: movieID)
+
+        // DetailVC'yi Xib'den oluşturuyoruz
         let detailVC = DetailVC(nibName: "DetailVC", bundle: Bundle.main)
         detailVC.viewModel = detailViewModel
-        self.navigationController?.pushViewController(detailVC, animated: true)
+        detailVC.movieID = movieID // Film ID'sini DetailVC'ye gönderiyoruz
         
+        // DetailVC'yi Navigation Controller ile başlatıyoruz
+        self.navigationController?.pushViewController(detailVC, animated: true)
+
+        // Row'ı deselect ediyoruz
         tableView.deselectRow(at: indexPath, animated: true)
     }
+
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentHeight = scrollView.contentSize.height

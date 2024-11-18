@@ -69,20 +69,17 @@ public class MovieService: MovieServiceProtocol {
     }
     
     public func fetchMovieDetails(movieId: Int, completion: @escaping (Result<MoviesResponse>) -> Void) {
-        let urlString = "https://api.themoviedb.org/3/movie/upcoming?api_key=1ae0a7f53c245e3bc03196612d1e663a&language=en-US&region=US&page=\(currentPage)"
+        let urlString = "https://api.themoviedb.org/3/movie/\(movieId)?api_key=1ae0a7f53c245e3bc03196612d1e663a&language=en-US"
         
-        AF.request(urlString).responseData { (response) in
+        AF.request(urlString).responseData { response in
             switch response.result {
             case .success(let data):
-                let decoder = Decoders.releaseDateDecoder
-                do {
-                    let response = try decoder.decode(MoviesResponse.self, from: data)
-                    completion(.success(response))
-                } catch {
-                    completion(.failure(Error.serializationError(internal: error)))
+                if let string = String(data: data, encoding: .utf8) {
+                    print("API Yanıtı: \(string)")
                 }
+                // Mevcut decoding kodu
             case .failure(let error):
-                completion(.failure(Error.networkError(internal: error)))
+                print("İstek hata verdi: \(error)")
             }
         }
     }

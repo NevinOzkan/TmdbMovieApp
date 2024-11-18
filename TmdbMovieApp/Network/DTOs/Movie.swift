@@ -23,7 +23,7 @@ public struct Movie: Decodable, Equatable {
     let voteAverage: Double
     let voteCount: Int
     let imdbID: String?
-    
+
     private enum CodingKeys: String, CodingKey {
         case adult
         case backdropPath = "backdrop_path"
@@ -42,3 +42,5 @@ public struct Movie: Decodable, Equatable {
         case imdbID = "imdb_id"
     }
 }
+
+  

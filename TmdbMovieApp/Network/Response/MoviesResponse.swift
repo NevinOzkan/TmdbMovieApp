@@ -2,18 +2,18 @@
 //  MoviesResponse.swift
 //  TmdbMovieApp
 //
-//  Created by Nevin Özkan on 11.11.2024.
+//  Created by Nevin Özkan on 18.11.2024.
 //
 
 import Foundation
 
 public struct MoviesResponse: Decodable {
     public let dates: Dates?
-    public let page: Int
+    public let page: Int?
     public let results: [Movie]
     
     // `init` metodu, varsayılan değerlerle manuel oluşturulabilir.
-    public init(dates: Dates? = nil, page: Int = 1, results: [Movie]) {
+    public init(dates: Dates? = nil, page: Int? = 1, results: [Movie]) {
         self.dates = dates
         self.page = page
         self.results = results

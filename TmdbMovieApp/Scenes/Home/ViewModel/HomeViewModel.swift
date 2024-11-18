@@ -59,25 +59,7 @@ class HomeViewModel: MovieViewModelProtocol {
            }
        }
             
-            func selectMovie(at index: Int) {
-                       guard index >= 0 && index < nowPlayingMovies.count else {
-                           print("Index out of range: \(index) - Movie count: \(nowPlayingMovies.count)")
-                           return
-                       }
-                       
-                       let movie = nowPlayingMovies[index]
-                       
-                       // Movie ve service parametrelerini geçiriyoruz
-                       let viewModel = DetailViewModel(movie: movie, service: service)
-
-                       // DetailViewModel'i başlat.
-                       let route = MovieViewRoute.detail(viewModel: viewModel)
-                       delegate?.navigate(to: route)
-                   }
-
     
-            
-            
             private func notify(_ output: MovieViewModelOutput) {
                 delegate?.handleViewModelOutput(output)
             }

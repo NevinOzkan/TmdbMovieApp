@@ -12,7 +12,6 @@ protocol MovieViewModelProtocol {
     var delegate: MovieViewModelDelegate? { get set }
     func loadUpcomingMovies(page: Int)
     func loadNowPlayingMovies()
-    func selectMovie(at index: Int)
 }
 
 //ViewModel’in View’a göndereceği çıktıları tanımlar
