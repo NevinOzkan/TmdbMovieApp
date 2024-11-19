@@ -7,7 +7,6 @@
 
 import Foundation
 
-//  View, bu protokolü benimseyen bir ViewModel ile etkileşimde bulunur.
 protocol MovieViewModelProtocol {
     var delegate: MovieViewModelDelegate? { get set }
     func loadUpcomingMovies(page: Int)

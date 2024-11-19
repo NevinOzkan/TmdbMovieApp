@@ -9,33 +9,26 @@ import Foundation
 
 class DetailViewModel: DetailViewModelProtocol {
     weak var delegate: DetailViewModelDelegate?
-    var movie: Movie? // Film verisini saklayacak property
+    var movie: Movie? 
     private let service: MovieServiceProtocol
     
-    // Movie ve service parametrelerini alıyoruz
+   
     init(service: MovieServiceProtocol) {
         self.service = service
     }
     
     func load(movieID: Int) {
-        print("Loading movie with ID: \(movieID)")
-        
+
         service.fetchMovieDetails(movieId: movieID) { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
-            case .success(let moviesResponse):
-                guard let movie = moviesResponse.results.first else {
-                    print("No movie found")
-                    return
-                }
-                
-                // Movie'yi ViewModel'e set ettim
-                print("Movie loaded successfully: \(movie.title)")
-                self?.movie = movie
-                
-                // Delegate üzerinden DetailVC'yi bilgilendiriyoruz
-                self?.delegate?.fetchMovieDetails(movie)
+            case .success(let movie):
+                self.movie = movie
+                self.delegate?.fetchMovieDetails(movie)
+                print("Movie başarıyla yüklendi: \(movie.title)")
             case .failure(let error):
-                print("Error fetching movie details: \(error)")
+                print("Film detayları yüklenirken hata oluştu: \(error)")
             }
         }
     }

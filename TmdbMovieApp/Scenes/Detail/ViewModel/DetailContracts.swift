@@ -9,12 +9,12 @@ import Foundation
 
 // ViewModel'in protokolü
 protocol DetailViewModelProtocol {
-    var delegate: DetailViewModelDelegate? { get set } // Delegate referansı
-    var movie: Movie? { get set } // Film verisini tutacak değişken
-    func load(movieID: Int) // Film detaylarını yüklemek için fonksiyon
+    var delegate: DetailViewModelDelegate? { get set }
+    var movie: Movie? { get set }
+    func load(movieID: Int)
 }
 
-// Delegate protokolü (ViewController tarafından benimsenir)
+
 protocol DetailViewModelDelegate: AnyObject {
-    func fetchMovieDetails(_ movie: Movie) // ViewModel'den gelen veriyi alacak fonksiyon
+    func fetchMovieDetails(_ movie: Movie)
 }

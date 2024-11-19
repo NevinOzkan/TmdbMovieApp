@@ -31,7 +31,6 @@ class UpcomingCell: UITableViewCell {
         let formattedDateString = DateFormatterHelper.formattedDate(from: model.releaseDate)
         dateLabel.text = formattedDateString
         
-           // Görseli yüklerken, varsa SDWebImage veya diğer yöntemleri kullanabilirsiniz
            if let posterPath = model.posterPath, let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)") {
                movieImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "placeholder"))
            }

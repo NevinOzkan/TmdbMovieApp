@@ -16,8 +16,8 @@ class DetailVC: UIViewController {
     @IBOutlet weak var voteLabel: UILabel!
     
         
-        var viewModel: DetailViewModelProtocol! // ViewModel referansı
-        var movieID: Int? // Film ID'si
+        var viewModel: DetailViewModelProtocol!
+        var movieID: Int?
         
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -25,32 +25,30 @@ class DetailVC: UIViewController {
             // ViewModel delegate'ini self yapıyoruz
             viewModel.delegate = self
             
-            // Eğer ViewModel'de film ID'si varsa, detayları yükle
             if let movieID = movieID {
-                viewModel.load(movieID: movieID)
+                       print("Loading movie with ID: \(movieID)")
+                       viewModel.load(movieID: movieID)
+                   } else {
+                       print("Movie ID is missing!")
+                   }
+               }
+           }
+
+
+extension DetailVC: DetailViewModelDelegate {
+    func fetchMovieDetails(_ movie: Movie) {
+        DispatchQueue.main.async {
+            self.movieTitleLabel.text = movie.title
+            self.voteLabel.text = "\(movie.voteAverage)/10"
+            self.dateLabel.text = DateFormatterHelper.formattedDate(from: movie.releaseDate)
+            self.overviewTextView.text = movie.overview
+        
+            if let imageUrl = movie.posterPath {
+                let fullImageUrl = "https://image.tmdb.org/t/p/w500\(imageUrl)"
+                self.imageView.sd_setImage(with: URL(string: fullImageUrl), placeholderImage: UIImage(named: "placeholder"))
             } else {
-                print("Movie ID is missing!")
+                self.imageView.image = UIImage(named: "placeholder")
             }
         }
     }
-
-    extension DetailVC: DetailViewModelDelegate {
-        // ViewModel'den gelen veriyi alıyoruz
-        func fetchMovieDetails(_ movie: Movie) {
-            DispatchQueue.main.async {
-                // UI elemanlarını güncelliyoruz
-                self.movieTitleLabel.text = movie.title
-                self.voteLabel.text = "\(movie.voteAverage ?? 0)/10"
-                self.dateLabel.text = DateFormatterHelper.formattedDate(from: movie.releaseDate)
-                self.overviewTextView.text = movie.overview
-
-                // Poster resmi için URL'yi kontrol ediyoruz
-                if let imageUrl = movie.posterPath {
-                    let fullImageUrl = "https://image.tmdb.org/t/p/w500\(imageUrl)"
-                    self.imageView.sd_setImage(with: URL(string: fullImageUrl), placeholderImage: UIImage(named: "placeholder"))
-                } else {
-                    self.imageView.image = UIImage(named: "placeholder")
-                }
-            }
-        }
-    }
+}

@@ -157,31 +157,19 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         return 140
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = upcomingMovies[indexPath.row] // Seçilen film
+        let movie = upcomingMovies[indexPath.row]
         guard let movieID = movie.id else {
-            print("Movie ID is not set!") // Hata kontrolü
             return
         }
-
-        // Servisi başlatıyoruz
         let service = MovieService()
-        
-        // DetailViewModel'i sadece service ile başlatıyoruz
         let detailViewModel = DetailViewModel(service: service)
-        
-        // Movie ID'sini kullanarak load fonksiyonunu çağırıyoruz
         detailViewModel.load(movieID: movieID)
-
-        // DetailVC'yi Xib'den oluşturuyoruz
+        
         let detailVC = DetailVC(nibName: "DetailVC", bundle: Bundle.main)
         detailVC.viewModel = detailViewModel
-        detailVC.movieID = movieID // Film ID'sini DetailVC'ye gönderiyoruz
+        detailVC.movieID = movieID
         
-        // DetailVC'yi Navigation Controller ile başlatıyoruz
         self.navigationController?.pushViewController(detailVC, animated: true)
-
-        // Row'ı deselect ediyoruz
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     
@@ -194,7 +182,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             if !isLoading {
                 isLoading = true
                 currentPage += 1
-                viewModel.loadUpcomingMovies(page: currentPage) // Yeni sayfayı yükle
+                viewModel.loadUpcomingMovies(page: currentPage) 
             }
         }
     }
