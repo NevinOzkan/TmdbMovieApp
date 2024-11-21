@@ -93,7 +93,6 @@ class HomeVC: UIViewController {
         viewModel.loadUpcomingMovies(page: currentPage)
         viewModel.loadNowPlayingMovies()
         
-        // Tabloyu ve koleksiyon görünümünü yeniden yüklüyoruz
         tableView.reloadData()
         sliderCollectionView.reloadData()
     }
@@ -161,8 +160,8 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         guard let movieID = movie.id else {
             return
         }
-        let service = MovieService()
-        let detailViewModel = DetailViewModel(service: service)
+      
+        let detailViewModel = DetailViewModel()
         detailViewModel.load(movieID: movieID)
         
         let detailVC = DetailVC(nibName: "DetailVC", bundle: Bundle.main)

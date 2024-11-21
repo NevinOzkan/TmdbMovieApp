@@ -15,14 +15,12 @@ class DetailVC: UIViewController {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var voteLabel: UILabel!
     
-        
         var viewModel: DetailViewModelProtocol!
         var movieID: Int?
         
         override func viewDidLoad() {
             super.viewDidLoad()
             
-            // ViewModel delegate'ini self yapıyoruz
             viewModel.delegate = self
             
             if let movieID = movieID {
