@@ -11,7 +11,6 @@ class DetailViewModel: DetailViewModelProtocol {
     
     weak var delegate: DetailViewModelDelegate?
 
-        
     func load(movieID: Int) {
 
         let service = MovieService()
@@ -22,9 +21,8 @@ class DetailViewModel: DetailViewModelProtocol {
             switch result {
             case .success(let movie):
                 self.delegate?.fetchMovieDetails(movie)
-                print("Movie başarıyla yüklendi: \(movie.title)")
             case .failure(let error):
-                print("Film detayları yüklenirken hata oluştu: \(error)")
+                break
             }
         }
     }

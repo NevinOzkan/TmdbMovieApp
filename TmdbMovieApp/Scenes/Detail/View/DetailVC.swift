@@ -24,7 +24,6 @@ class DetailVC: UIViewController {
             viewModel.delegate = self
             
             if let movieID = movieID {
-                       print("Loading movie with ID: \(movieID)")
                        viewModel.load(movieID: movieID)
                    } else {
                        print("Movie ID is missing!")
