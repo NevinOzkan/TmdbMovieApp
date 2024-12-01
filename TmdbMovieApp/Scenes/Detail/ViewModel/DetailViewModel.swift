@@ -12,17 +12,14 @@ class DetailViewModel: DetailViewModelProtocol {
     weak var delegate: DetailViewModelDelegate?
 
     func load(movieID: Int) {
-
         let service = MovieService()
-        
         service.fetchMovieDetails(movieId: movieID) { [weak self] result in
             guard let self = self else { return }
-            
             switch result {
             case .success(let movie):
                 self.delegate?.fetchMovieDetails(movie)
             case .failure(let error):
-                break
+                self.delegate?.showError("Failed to load movie details: \(error.localizedDescription)")
             }
         }
     }

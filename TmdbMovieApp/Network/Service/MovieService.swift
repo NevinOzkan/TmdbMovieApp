@@ -17,7 +17,6 @@ public protocol MovieServiceProtocol {
 
 public class MovieService: MovieServiceProtocol {
     
-    
     public var nowPlayingMovies: [Movie] = []
     public var upcomingMovies: [Movie] = []
     var currentPage: Int = 1
@@ -28,8 +27,7 @@ public class MovieService: MovieServiceProtocol {
     }
     
     public init() { }
-    
-    
+  
     public func fetchNowPlayingMovies(completion: @escaping (Result<MoviesResponse>) -> Void) {
         let urlString = "https://api.themoviedb.org/3/movie/now_playing?api_key=1ae0a7f53c245e3bc03196612d1e663a&language=en-US&region=US&page=\(currentPage)"
         

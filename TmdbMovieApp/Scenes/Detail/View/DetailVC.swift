@@ -15,37 +15,37 @@ class DetailVC: UIViewController {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var voteLabel: UILabel!
     
-        var viewModel: DetailViewModelProtocol!
-        var movieID: Int?
+    var viewModel: DetailViewModelProtocol!
+    var movieID: Int!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            viewModel.delegate = self
-            
-            if let movieID = movieID {
-                       viewModel.load(movieID: movieID)
-                   } else {
-                       print("Movie ID is missing!")
-                   }
-               }
-           }
-
+        viewModel.delegate = self
+        viewModel.load(movieID: movieID)
+    }
+}
 
 extension DetailVC: DetailViewModelDelegate {
+    
     func fetchMovieDetails(_ movie: Movie) {
-        DispatchQueue.main.async {
-            self.movieTitleLabel.text = movie.title
-            self.voteLabel.text = "\(movie.voteAverage)/10"
-            self.dateLabel.text = DateFormatterHelper.formattedDate(from: movie.releaseDate)
-            self.overviewTextView.text = movie.overview
+        self.movieTitleLabel.text = movie.title
+        self.voteLabel.text = "\(movie.voteAverage)/10"
+        self.dateLabel.text = DateFormatterHelper.formattedDate(from: movie.releaseDate)
+        self.overviewTextView.text = movie.overview
         
-            if let imageUrl = movie.posterPath {
-                let fullImageUrl = "https://image.tmdb.org/t/p/w500\(imageUrl)"
-                self.imageView.sd_setImage(with: URL(string: fullImageUrl), placeholderImage: UIImage(named: "placeholder"))
-            } else {
-                self.imageView.image = UIImage(named: "placeholder")
-            }
+        if let imageUrl = movie.posterPath {
+            let fullImageUrl = "https://image.tmdb.org/t/p/w500\(imageUrl)"
+            self.imageView.sd_setImage(with: URL(string: fullImageUrl), placeholderImage: UIImage(named: "placeholder"))
+        } else {
+            self.imageView.image = UIImage(named: "placeholder")
         }
+    }
+    
+    func showError(_ message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        self.present(alert, animated: true)
     }
 }

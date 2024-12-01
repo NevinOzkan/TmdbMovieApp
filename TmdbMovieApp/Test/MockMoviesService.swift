@@ -9,7 +9,6 @@ import Foundation
 
 
 final class MockMoviesService: MovieServiceProtocol {
-    
 
     var movies: [Movie] = []
     
@@ -24,12 +23,11 @@ final class MockMoviesService: MovieServiceProtocol {
     }
     
     func fetchMovieDetails(movieId: Int, completion: @escaping (Result<Movie>) -> Void) {
-        // Filmler arasında ID'yi arıyoruz
         if let movie = movies.first(where: { $0.id == movieId }) {
-            completion(.success(movie)) // Eşleşen film bulunduysa döndür
+            completion(.success(movie)) 
         } else {
             let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Movie not found"])
-            completion(.failure(error)) // Film bulunamadıysa hata döndür
+            completion(.failure(error))
         }
     }
 }

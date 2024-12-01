@@ -7,7 +7,6 @@
 
 import Foundation
 
-// ViewModel'in protokolü
 protocol DetailViewModelProtocol {
     var delegate: DetailViewModelDelegate? { get set }
     func load(movieID: Int)
@@ -15,4 +14,5 @@ protocol DetailViewModelProtocol {
 
 protocol DetailViewModelDelegate: AnyObject {
     func fetchMovieDetails(_ movie: Movie)
+    func showError(_ message: String)
 }

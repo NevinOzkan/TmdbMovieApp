@@ -7,7 +7,6 @@
 
 import Foundation
 
-// film verilerini yüklemek için yapılandırılmıştır
 class ResourceLoader {
     
     enum MovieResource: String {

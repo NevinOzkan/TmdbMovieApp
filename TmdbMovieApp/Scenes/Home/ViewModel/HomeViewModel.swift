@@ -8,59 +8,39 @@
 import Foundation
 
 class HomeViewModel: MovieViewModelProtocol {
-    
+    var currentPage: Int = 0
     var delegate: (any MovieViewModelDelegate)?
-    private var movies: [Movie] = []
-    private var nowPlayingMovies: [Movie] = []
-    private var upcomingMovies: [Movie] = []
-    private let service: MovieServiceProtocol!
-    
-    init(service: MovieServiceProtocol) {
-        self.service = service
-    }
+    var nowPlayingMovies: [Movie] = []
+    var upcomingMovies: [Movie] = []
+    var service = MovieService()
     
     func loadUpcomingMovies(page: Int) {
-            notify(.setLoading(true))
-            
-            service.fetchUpcomingMovies { [weak self] result in
-                guard let self = self else { return }
-                self.notify(.setLoading(false))
-                
-                switch result {
-                case .success(let response):
-                    print("Gelen Upcoming Movies:", response)
-                    
-                    self.upcomingMovies = response.results
-                    self.notify(.updateUpcomingMovies(self.upcomingMovies))
-                    
-                case .failure(let error):
-                    print("API Fetch Hatası: \(error.localizedDescription)")
-                }
+        service.fetchUpcomingMovies() { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let response):
+                self.upcomingMovies.append(contentsOf: response.results)
+                self.notify(.updateUpcomingMovies(self.upcomingMovies))
+            case .failure(let error):
+                self.delegate?.showError("Failed to load movie details: \(error.localizedDescription)")
             }
         }
-            
-    func loadNowPlayingMovies() {
-           notify(.setLoading(true))
-           
-           service.fetchNowPlayingMovies() { [weak self] result in
-               guard let self = self else { return }
-               self.notify(.setLoading(false))
-               
-               switch result {
-               case .success(let response):
-                   print("Gelen Now Playing Movies:", response)
-                   
-                   self.nowPlayingMovies.append(contentsOf: response.results)
-                   self.notify(.updateNowPlayingMovies(self.nowPlayingMovies))
-                   
-               case .failure(let error):
-                   print("API Fetch Hatası: \(error.localizedDescription)")
-               }
-           }
-       }
-            
+    }
     
-            private func notify(_ output: MovieViewModelOutput) {
-                delegate?.handleViewModelOutput(output)
+    func loadNowPlayingMovies() {
+        service.fetchNowPlayingMovies() { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let response):
+                self.nowPlayingMovies.append(contentsOf: response.results)
+                self.notify(.updateNowPlayingMovies(self.nowPlayingMovies))
+            case .failure(let error):
+                self.delegate?.showError("Failed to load movie details: \(error.localizedDescription)")
             }
+        }
+    }
+   
+    private func notify(_ output: MovieViewModelOutput) {
+        delegate?.handleViewModelOutput(output)
+    }
 }

@@ -9,13 +9,11 @@ import UIKit
 import SDWebImage
 
 class UpcomingCell: UITableViewCell {
-
     
     @IBOutlet weak var movieImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()

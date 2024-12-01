@@ -9,26 +9,24 @@ import Foundation
 
 protocol MovieViewModelProtocol {
     var delegate: MovieViewModelDelegate? { get set }
+    var upcomingMovies: [Movie] { get set }
+    var nowPlayingMovies: [Movie] { get set }
+    var currentPage: Int { get set } // currentPage eklendi
     func loadUpcomingMovies(page: Int)
     func loadNowPlayingMovies()
-}
-
-//ViewModel’in View’a göndereceği çıktıları tanımlar
-enum MovieViewModelOutput: Equatable {
-    case updateTitle(String)
-    case setLoading(Bool)
-    case updateUpcomingMovies([Movie])
-    case updateNowPlayingMovies([Movie])
    
 }
 
-// ViewModel ile  View  arasındaki iletişimi tanımlar.
-protocol MovieViewModelDelegate: AnyObject {
-    func handleViewModelOutput(_ output: MovieViewModelOutput)
-    func navigate(to route: MovieViewRoute)
+enum MovieViewModelOutput {
+    case updateUpcomingMovies([Movie])
+    case updateNowPlayingMovies([Movie])
 }
 
-// view modelin hangi yönlendirmeleri yapması gerektiğini belirtir.
+protocol MovieViewModelDelegate: AnyObject {
+    func handleViewModelOutput(_ output: MovieViewModelOutput)
+    func showError(_ message: String) 
+}
+
 enum MovieViewRoute {
     case detail(viewModel: DetailViewModelProtocol)
 }
