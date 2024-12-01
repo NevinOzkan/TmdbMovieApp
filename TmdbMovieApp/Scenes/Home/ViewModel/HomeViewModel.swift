@@ -10,8 +10,8 @@ import Foundation
 class HomeViewModel: MovieViewModelProtocol {
     var currentPage: Int = 0
     var delegate: (any MovieViewModelDelegate)?
-    var nowPlayingMovies: [Movie] = []
-    var upcomingMovies: [Movie] = []
+    var nowPlayingMovies: [HomeMovie] = []
+    var upcomingMovies: [HomeMovie] = []
     var service = MovieService()
     
     func loadUpcomingMovies(page: Int) {

@@ -7,10 +7,9 @@
 
 import Foundation
 
-
 final class MockMoviesService: MovieServiceProtocol {
 
-    var movies: [Movie] = []
+    var movies: [HomeMovie] = []
     
     func fetchNowPlayingMovies(completion: @escaping (Result<MoviesResponse>) -> Void) {
         let moviesResponse = MoviesResponse(results: movies)
@@ -22,12 +21,12 @@ final class MockMoviesService: MovieServiceProtocol {
         completion(.success(moviesResponse))
     }
     
-    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<Movie>) -> Void) {
-        if let movie = movies.first(where: { $0.id == movieId }) {
-            completion(.success(movie)) 
-        } else {
-            let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Movie not found"])
-            completion(.failure(error))
-        }
+    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<DetailMovie>) -> Void) {
+//        if let movie = movies.first(where: { $0.id == movieId }) {
+//            completion(.success(movie)) 
+//        } else {
+//            let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Movie not found"])
+//            completion(.failure(error))
+//        }
     }
 }

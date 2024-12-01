@@ -12,13 +12,13 @@ public protocol MovieServiceProtocol {
     
     func fetchNowPlayingMovies(completion: @escaping (Result<MoviesResponse>) -> Void)
     func fetchUpcomingMovies(completion: @escaping (Result<MoviesResponse>) -> Void)
-    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<Movie>) -> Void)
+    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<DetailMovie>) -> Void)
 }
 
 public class MovieService: MovieServiceProtocol {
     
-    public var nowPlayingMovies: [Movie] = []
-    public var upcomingMovies: [Movie] = []
+    public var nowPlayingMovies: [HomeMovie] = []
+    public var upcomingMovies: [HomeMovie] = []
     var currentPage: Int = 1
     
     public enum Error: Swift.Error {
@@ -68,15 +68,15 @@ public class MovieService: MovieServiceProtocol {
         }
     }
     
-    public func fetchMovieDetails(movieId: Int, completion: @escaping (Result<Movie>) -> Void) {
+    public func fetchMovieDetails(movieId: Int, completion: @escaping (Result<DetailMovie>) -> Void) {
         let urlString = "https://api.themoviedb.org/3/movie/\(movieId)?api_key=1ae0a7f53c245e3bc03196612d1e663a&language=en-US"
         
         AF.request(urlString).responseData { response in
             switch response.result {
             case .success(let data):
                 do {
-                    let movie = try JSONDecoder().decode(Movie.self, from: data)
-                    completion(.success(movie)) 
+                    let movie = try JSONDecoder().decode(DetailMovie.self, from: data)
+                    completion(.success(movie))
                 } catch {
                     completion(.failure(error))
                 }

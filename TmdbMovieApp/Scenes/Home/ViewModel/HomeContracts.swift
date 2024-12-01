@@ -9,17 +9,17 @@ import Foundation
 
 protocol MovieViewModelProtocol {
     var delegate: MovieViewModelDelegate? { get set }
-    var upcomingMovies: [Movie] { get set }
-    var nowPlayingMovies: [Movie] { get set }
-    var currentPage: Int { get set } // currentPage eklendi
+    var upcomingMovies: [HomeMovie] { get set }
+    var nowPlayingMovies: [HomeMovie] { get set }
+    var currentPage: Int { get set } 
     func loadUpcomingMovies(page: Int)
     func loadNowPlayingMovies()
    
 }
 
 enum MovieViewModelOutput {
-    case updateUpcomingMovies([Movie])
-    case updateNowPlayingMovies([Movie])
+    case updateUpcomingMovies([HomeMovie])
+    case updateNowPlayingMovies([HomeMovie])
 }
 
 protocol MovieViewModelDelegate: AnyObject {

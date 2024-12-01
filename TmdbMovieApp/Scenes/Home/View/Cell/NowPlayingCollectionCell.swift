@@ -19,7 +19,7 @@ class NowPlayingCollectionCell: UICollectionViewCell {
         
     }
 
-    func prepareCell(with model: Movie) {
+    func prepareCell(with model: HomeMovie) {
         movieTitle.text = model.title
         movieOverview.text = model.overview
         

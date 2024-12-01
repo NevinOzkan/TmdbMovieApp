@@ -139,8 +139,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let movieID = viewModel.upcomingMovies[indexPath.row].id else { return }
-        
+        let movieID = viewModel.upcomingMovies[indexPath.row].id
         navigateToDetail(with: movieID)
     }
 
@@ -162,9 +161,8 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.size.height
 
-        // Kullanıcı alt tarafa yakınsa verileri yükle
         if offsetY > contentHeight - frameHeight - 100 {
-            if !isLoading {  // Yüklenme devam etmiyorsa
+            if !isLoading {  
                 isLoading = true
                 viewModel.currentPage += 1
                 viewModel.loadUpcomingMovies(page: viewModel.currentPage)

@@ -10,10 +10,10 @@ import Foundation
 public struct MoviesResponse: Decodable {
     public let dates: Dates?
     public let page: Int?
-    public let results: [Movie]
+    public let results: [HomeMovie]
     
     
-    public init(dates: Dates? = nil, page: Int? = 1, results: [Movie]) {
+    public init(dates: Dates? = nil, page: Int? = 1, results: [HomeMovie]) {
         self.dates = dates
         self.page = page
         self.results = results

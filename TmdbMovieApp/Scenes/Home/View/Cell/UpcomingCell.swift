@@ -22,9 +22,9 @@ class UpcomingCell: UITableViewCell {
         movieImageView.clipsToBounds = true
     }
 
-    func prepareCell(with model: Movie) {
+    func prepareCell(with model: HomeMovie) {
            titleLabel.text = model.title
-           overviewLabel.text = model.overview
+        overviewLabel.text = model.overview
         
         let formattedDateString = DateFormatterHelper.formattedDate(from: model.releaseDate)
         dateLabel.text = formattedDateString
