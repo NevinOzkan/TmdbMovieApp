@@ -15,14 +15,14 @@ class ResourceLoader {
         case movie3
     }
     
-    static func loadMovie(resource: MovieResource) throws -> HomeMovie {
+    static func loadMovie(resource: MovieResource) throws -> MovieModel {
         let bundle = Bundle.test
         guard let url = bundle.url(forResource: resource.rawValue, withExtension: "json") else {
             throw NSError(domain: "ResourceLoaderError", code: 404, userInfo: [NSLocalizedDescriptionKey: "Kaynak bulunamadı"])
         }
         let data = try Data(contentsOf: url)
         let decoder = Decoders.releaseDateDecoder
-        let movie = try decoder.decode(HomeMovie.self, from: data)
+        let movie = try decoder.decode(MovieModel.self, from: data)
         return movie
     }
 }

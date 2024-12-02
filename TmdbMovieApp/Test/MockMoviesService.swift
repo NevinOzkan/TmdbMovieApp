@@ -9,21 +9,21 @@ import Foundation
 
 final class MockMoviesService: MovieServiceProtocol {
     
-    var movies: [HomeMovie] = []
+    var movies: [MovieModel] = []
 
-    func fetchNowPlayingMovies(completion: @escaping (Result<MoviesResponse>) -> Void) {
-        let moviesResponse = MoviesResponse(results: movies)
+    func fetchNowPlayingMovies(completion: @escaping (Result<MoviesModelResponse>) -> Void) {
+        let moviesResponse = MoviesModelResponse(results: movies)
         completion(.success(moviesResponse))
     }
 
-    func fetchUpcomingMovies(completion: @escaping (Result<MoviesResponse>) -> Void) {
-        let moviesResponse = MoviesResponse(results: movies)
+    func fetchUpcomingMovies(completion: @escaping (Result<MoviesModelResponse>) -> Void) {
+        let moviesResponse = MoviesModelResponse(results: movies)
         completion(.success(moviesResponse))
     }
 
-    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<DetailMovie>) -> Void) {
+    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<MovieModel>) -> Void) {
         if let movie = movies.first(where: { $0.id == movieId }) {
-            let detailMovie = DetailMovie(
+            let detailMovie = MovieModel(
                 id: movie.id,
                 title: movie.title,
                 overview: movie.overview,

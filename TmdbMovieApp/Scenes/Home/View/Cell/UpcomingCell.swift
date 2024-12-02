@@ -22,7 +22,7 @@ class UpcomingCell: UITableViewCell {
         movieImageView.clipsToBounds = true
     }
 
-    func prepareCell(with model: HomeMovie) {
+    func prepareCell(with model: MovieModel) {
         titleLabel.text = model.title
         overviewLabel.text = model.overview
         

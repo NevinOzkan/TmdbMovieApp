@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DetailMovie: Decodable, Equatable {
+public struct MovieModel: Decodable, Equatable {
     let id: Int
     let title: String
     let overview: String
@@ -16,6 +16,8 @@ public struct DetailMovie: Decodable, Equatable {
     let releaseDate: String
     let voteAverage: Double
     let imdbID: String?
+   
+
     
     private enum CodingKeys: String, CodingKey {
         case id

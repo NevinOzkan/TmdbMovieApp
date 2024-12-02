@@ -28,7 +28,7 @@ class DetailVC: UIViewController {
 
 extension DetailVC: DetailViewModelDelegate {
     
-    func fetchMovieDetails(_ movie: DetailMovie) {
+    func fetchMovieDetails(_ movie: MovieModel) {
         self.movieTitleLabel.text = movie.title
         self.voteLabel.text = "\(movie.voteAverage)/10"
         self.dateLabel.text = DateFormatterHelper.formattedDate(from: movie.releaseDate)

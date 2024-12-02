@@ -14,7 +14,6 @@ class HomeVC: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     
     var viewModel: MovieViewModelProtocol = HomeViewModel()
-    var isLoading = false
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
@@ -27,6 +26,7 @@ class HomeVC: UIViewController {
         setupUI()
         setupSliderCollectionViewLayout()
         setupRefreshControl()
+        
     }
     
     private func registerCells() {
@@ -92,7 +92,6 @@ extension HomeVC: MovieViewModelDelegate {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
-                self.isLoading = false
             }
             
         case .updateNowPlayingMovies(let movieList):
@@ -131,7 +130,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         let movieID = viewModel.upcomingMovies[indexPath.row].id
         navigateToDetail(with: movieID)
     }
-
+    
     private func navigateToDetail(with movieID: Int) {
         let detailViewModel = DetailViewModel()
         detailViewModel.load(movieID: movieID)
@@ -145,17 +144,14 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard scrollView == tableView else { return }
-
+        
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.size.height
-
+        
         if offsetY > contentHeight - frameHeight - 100 {
-            if !isLoading {
-                isLoading = true
-                viewModel.currentPage += 1
-                viewModel.loadUpcomingMovies(page: viewModel.currentPage)
-            }
+            viewModel.currentPage += 1
+            viewModel.loadUpcomingMovies(page: viewModel.currentPage)
         }
     }
 }

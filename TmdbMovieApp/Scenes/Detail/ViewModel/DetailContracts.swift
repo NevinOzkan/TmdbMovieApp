@@ -13,6 +13,6 @@ protocol DetailViewModelProtocol {
 }
 
 protocol DetailViewModelDelegate: AnyObject {
-    func fetchMovieDetails(_ movie: DetailMovie)
+    func fetchMovieDetails(_ movie: MovieModel)
     func showError(_ message: String)
 }

@@ -7,19 +7,19 @@
 
 import UIKit
 
+
 class NowPlayingCollectionCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var movieTitle: UILabel!
     @IBOutlet weak var movieOverview: UILabel!
 
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         
     }
 
-    func prepareCell(with model: HomeMovie) {
+    func prepareCell(with model: MovieModel) {
         movieTitle.text = model.title
         movieOverview.text = model.overview
         
