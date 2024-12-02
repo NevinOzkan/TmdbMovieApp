@@ -7,7 +7,6 @@
 
 import Foundation
 
-// Tarih dizesini farklı bir formatta String olarak döndürür
 public class DateFormatterHelper {
     
     public static func formattedDate(from dateString: String) -> String {

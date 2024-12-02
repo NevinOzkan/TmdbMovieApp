@@ -7,7 +7,6 @@
 
 import Foundation
 
-// JSON verisini doğrudan Date türüne dönüştürür
 public enum Decoders {
     
     static let releaseDateDecoder: JSONDecoder = {

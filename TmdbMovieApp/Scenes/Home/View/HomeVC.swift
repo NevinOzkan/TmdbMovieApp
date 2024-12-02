@@ -55,9 +55,6 @@ class HomeVC: UIViewController {
         viewModel.loadUpcomingMovies(page: viewModel.currentPage)
         viewModel.loadNowPlayingMovies()
         
-        pageControl.numberOfPages = viewModel.nowPlayingMovies.count
-        pageControl.currentPage = 0
-        
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(pageControl)
         
@@ -77,14 +74,6 @@ class HomeVC: UIViewController {
         viewModel.currentPage += 1
         viewModel.upcomingMovies.removeAll()
         viewModel.nowPlayingMovies.removeAll()
-        viewModel.loadUpcomingMovies(page: viewModel.currentPage)
-        viewModel.loadNowPlayingMovies()
-    }
-    
-    private func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default))
-        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -95,8 +84,7 @@ extension HomeVC: MovieViewModelDelegate {
         alert.addAction(okAction)
         self.present(alert, animated: true)
     }
-    
-    
+
     func handleViewModelOutput(_ output: MovieViewModelOutput) {
         switch output {
         case .updateUpcomingMovies(let movieList):
@@ -114,6 +102,7 @@ extension HomeVC: MovieViewModelDelegate {
                 self.pageControl.numberOfPages = self.viewModel.nowPlayingMovies.count
                 self.pageControl.currentPage = 0
                 self.refreshControl.endRefreshing()
+               
             }
         }
     }
@@ -162,7 +151,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         let frameHeight = scrollView.frame.size.height
 
         if offsetY > contentHeight - frameHeight - 100 {
-            if !isLoading {  
+            if !isLoading {
                 isLoading = true
                 viewModel.currentPage += 1
                 viewModel.loadUpcomingMovies(page: viewModel.currentPage)
@@ -187,13 +176,13 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         return cell
     }
     
-     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
-     }
-     
-     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-         return 0
-     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.frame.size.width)

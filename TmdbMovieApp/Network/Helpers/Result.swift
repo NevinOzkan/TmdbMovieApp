@@ -7,7 +7,6 @@
 
 import Foundation
 
-//  hata durumlarını ele almak için.
 public enum Result<Value> {
     case success(Value)
     case failure(Error)

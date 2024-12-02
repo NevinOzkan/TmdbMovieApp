@@ -8,25 +8,35 @@
 import Foundation
 
 final class MockMoviesService: MovieServiceProtocol {
-
-    var movies: [HomeMovie] = []
     
+    var movies: [HomeMovie] = []
+
     func fetchNowPlayingMovies(completion: @escaping (Result<MoviesResponse>) -> Void) {
         let moviesResponse = MoviesResponse(results: movies)
         completion(.success(moviesResponse))
     }
-    
+
     func fetchUpcomingMovies(completion: @escaping (Result<MoviesResponse>) -> Void) {
         let moviesResponse = MoviesResponse(results: movies)
         completion(.success(moviesResponse))
     }
-    
+
     func fetchMovieDetails(movieId: Int, completion: @escaping (Result<DetailMovie>) -> Void) {
-//        if let movie = movies.first(where: { $0.id == movieId }) {
-//            completion(.success(movie)) 
-//        } else {
-//            let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Movie not found"])
-//            completion(.failure(error))
-//        }
+        if let movie = movies.first(where: { $0.id == movieId }) {
+            let detailMovie = DetailMovie(
+                id: movie.id,
+                title: movie.title,
+                overview: movie.overview,
+                backdropPath: "",
+                posterPath: "",
+                releaseDate: "N/A",
+                voteAverage: 0.0,
+                imdbID: ""
+            )
+            completion(.success(detailMovie))
+        } else {
+            let error = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Movie not found"])
+            completion(.failure(error))
+        }
     }
 }

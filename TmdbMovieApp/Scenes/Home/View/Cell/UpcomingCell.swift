@@ -23,7 +23,7 @@ class UpcomingCell: UITableViewCell {
     }
 
     func prepareCell(with model: HomeMovie) {
-           titleLabel.text = model.title
+        titleLabel.text = model.title
         overviewLabel.text = model.overview
         
         let formattedDateString = DateFormatterHelper.formattedDate(from: model.releaseDate)
