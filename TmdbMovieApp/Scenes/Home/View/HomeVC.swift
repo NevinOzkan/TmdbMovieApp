@@ -72,9 +72,12 @@ class HomeVC: UIViewController {
     }
     
     @objc private func refreshData() {
-        viewModel.currentPage += 1
+
         viewModel.upcomingMovies.removeAll()
         viewModel.nowPlayingMovies.removeAll()
+        
+        viewModel.loadUpcomingMovies()
+        viewModel.loadNowPlayingMovies()
     }
 }
 
