@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SDWebImage
 
 class UpcomingCell: UITableViewCell {
     
@@ -30,7 +29,7 @@ class UpcomingCell: UITableViewCell {
         dateLabel.text = formattedDateString
         
            if let posterPath = model.posterPath, let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)") {
-               movieImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "placeholder"))
+               movieImageView.sd_setImage(with: url)
            }
        }
    }

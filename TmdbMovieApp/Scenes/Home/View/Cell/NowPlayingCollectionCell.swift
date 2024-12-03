@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class NowPlayingCollectionCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
@@ -24,7 +23,7 @@ class NowPlayingCollectionCell: UICollectionViewCell {
         movieOverview.text = model.overview
         
         if let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500" + model.posterPath!) {
-            imageView.sd_setImage(with: imageUrl, placeholderImage: UIImage(named: "placeholder"))
+            imageView.sd_setImage(with: imageUrl)
         }
     }
 }

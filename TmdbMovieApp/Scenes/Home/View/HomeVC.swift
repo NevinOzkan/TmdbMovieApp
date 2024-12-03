@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class HomeVC: UIViewController {
     
@@ -52,7 +53,7 @@ class HomeVC: UIViewController {
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
         
-        viewModel.loadUpcomingMovies(page: viewModel.currentPage)
+        viewModel.loadUpcomingMovies()
         viewModel.loadNowPlayingMovies()
         
         pageControl.translatesAutoresizingMaskIntoConstraints = false
@@ -135,7 +136,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         let detailViewModel = DetailViewModel()
         detailViewModel.load(movieID: movieID)
         
-        let detailVC = DetailVC(nibName: "DetailVC", bundle: .main)
+        let detailVC = DetailVC()
         detailVC.viewModel = detailViewModel
         detailVC.movieID = movieID
         
@@ -149,9 +150,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.size.height
         
-        if offsetY > contentHeight - frameHeight - 100 {
-            viewModel.currentPage += 1
-            viewModel.loadUpcomingMovies(page: viewModel.currentPage)
+        if offsetY > contentHeight - frameHeight - 100 && !viewModel.isLoading {
+            viewModel.isLoading = true
+            viewModel.loadUpcomingMovies()
         }
     }
 }

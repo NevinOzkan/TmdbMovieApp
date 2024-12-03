@@ -12,9 +12,9 @@ protocol MovieViewModelProtocol {
     var upcomingMovies: [MovieModel] { get set }
     var nowPlayingMovies: [MovieModel] { get set }
     var currentPage: Int { get set }
-    func loadUpcomingMovies(page: Int)
+    var isLoading: Bool { get set }
+    func loadUpcomingMovies()
     func loadNowPlayingMovies()
-   
 }
 
 enum MovieViewModelOutput {
