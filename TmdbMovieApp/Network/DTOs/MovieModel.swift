@@ -16,6 +16,7 @@ public struct MovieModel: Decodable, Equatable {
     let releaseDate: String
     let voteAverage: Double
     let imdbID: String?
+    let totalPages: Int?
    
 
     
@@ -28,5 +29,6 @@ public struct MovieModel: Decodable, Equatable {
         case releaseDate = "release_date"
         case voteAverage = "vote_average"
         case imdbID = "imdb_id"
+        case totalPages = "total_pages"
     }
 }

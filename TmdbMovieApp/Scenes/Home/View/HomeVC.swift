@@ -73,13 +73,13 @@ class HomeVC: UIViewController {
     
     @objc private func refreshData() {
 
-        viewModel.upcomingMovies.removeAll()
-        viewModel.nowPlayingMovies.removeAll()
-        
-        viewModel.loadUpcomingMovies()
-        viewModel.loadNowPlayingMovies()
-    }
-}
+           viewModel.upcomingMovies.removeAll()
+           viewModel.nowPlayingMovies.removeAll()
+           
+           viewModel.loadUpcomingMovies()
+           viewModel.loadNowPlayingMovies()
+       }
+   }
 
 extension HomeVC: MovieViewModelDelegate {
     func showError(_ message: String) {
@@ -152,13 +152,15 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.size.height
-        
+    
         if offsetY > contentHeight - frameHeight - 100 && !viewModel.isLoading {
-            viewModel.isLoading = true
-            viewModel.loadUpcomingMovies()
+            if viewModel.currentPage <= viewModel.totalPages {
+                viewModel.loadUpcomingMovies()
+            }
         }
     }
 }
+
 
 extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -13,6 +13,7 @@ protocol MovieViewModelProtocol {
     var nowPlayingMovies: [MovieModel] { get set }
     var currentPage: Int { get set }
     var isLoading: Bool { get set }
+    var totalPages: Int { get set }   
     func loadUpcomingMovies()
     func loadNowPlayingMovies()
 }

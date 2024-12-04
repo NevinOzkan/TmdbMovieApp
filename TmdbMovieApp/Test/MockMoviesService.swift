@@ -31,7 +31,8 @@ final class MockMoviesService: MovieServiceProtocol {
                 posterPath: "",
                 releaseDate: "N/A",
                 voteAverage: 0.0,
-                imdbID: ""
+                imdbID: "",
+                totalPages: 6
             )
             completion(.success(detailMovie))
         } else {

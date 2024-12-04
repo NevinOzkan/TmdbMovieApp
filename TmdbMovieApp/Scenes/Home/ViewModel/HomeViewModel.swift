@@ -15,22 +15,35 @@ class HomeViewModel: MovieViewModelProtocol {
     var service = MovieService()
     var currentPage: Int = 1
     var isLoading: Bool = false
-    
+    var totalPages: Int = 6
+
     func loadUpcomingMovies() {
+        guard currentPage <= totalPages, !isLoading else { return }
+        
+        isLoading = true
+        
         service.fetchUpcomingMovies(page: currentPage) { [weak self] result in
-                guard let self = self else { return }
-                self.isLoading = false
+            guard let self = self else { return }
+            
+            self.isLoading = false
+            
+            switch result {
+            case .success(let response):
+                self.upcomingMovies.append(contentsOf: response.results)
                 
-                switch result {
-                case .success(let response):
-                    self.upcomingMovies.append(contentsOf: response.results)
-                    self.currentPage += 1
-                    self.notify(.updateUpcomingMovies(self.upcomingMovies))
-                case .failure(let error):
-                    self.delegate?.showError("Failed to load movie details: \(error.localizedDescription)")
+                if let fetchedTotalPages = response.totalPages {
+                    self.totalPages = fetchedTotalPages
                 }
+                
+                self.currentPage += 1
+                
+                self.notify(.updateUpcomingMovies(self.upcomingMovies))
+                
+            case .failure(let error):
+                self.delegate?.showError("Failed to load movie details: \(error.localizedDescription)")
             }
         }
+    }
     
     func loadNowPlayingMovies() {
         service.fetchNowPlayingMovies() { [weak self] result in
