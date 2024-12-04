@@ -163,13 +163,14 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
 
 extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.nowPlayingMovies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCollectionCell", for: indexPath) as? NowPlayingCollectionCell else {
-            fatalError("Error : NowPlayingCollectionCell")
+            fatalError("Error: NowPlayingCollectionCell")
         }
         
         let movie = viewModel.nowPlayingMovies[indexPath.row]
@@ -186,6 +187,17 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         return 0
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedMovie = viewModel.nowPlayingMovies[indexPath.row]
+        let detailVC = DetailVC()
+        
+        detailVC.movieID = selectedMovie.id
+        let viewModel = DetailViewModel()
+        detailVC.viewModel = viewModel
+        
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
         if pageIndex != pageControl.currentPage {
@@ -193,4 +205,3 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         }
     }
 }
-
