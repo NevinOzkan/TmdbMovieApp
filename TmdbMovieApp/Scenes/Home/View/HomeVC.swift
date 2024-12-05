@@ -112,6 +112,7 @@ extension HomeVC: MovieViewModelDelegate {
 }
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.upcomingMovies.count
     }
@@ -147,20 +148,19 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView == tableView else { return }
+        if scrollView == tableView {
+            let offsetY = scrollView.contentOffset.y
+            let contentHeight = scrollView.contentSize.height
+            let frameHeight = scrollView.frame.size.height
         
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let frameHeight = scrollView.frame.size.height
-    
-        if offsetY > contentHeight - frameHeight - 100 && !viewModel.isLoading {
-            if viewModel.currentPage <= viewModel.totalPages {
-                viewModel.loadUpcomingMovies()
+            if offsetY > contentHeight - frameHeight - 100 && !viewModel.isLoading {
+                if viewModel.currentPage < viewModel.totalPages {
+                    viewModel.loadUpcomingMovies()
+                }
             }
         }
     }
 }
-
 
 extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -199,9 +199,11 @@ extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let pageIndex = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
-        if pageIndex != pageControl.currentPage {
-            pageControl.currentPage = pageIndex
+        if scrollView == sliderCollectionView {
+            let pageIndex = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
+            if pageIndex != pageControl.currentPage {
+                pageControl.currentPage = pageIndex
+            }
         }
     }
 }

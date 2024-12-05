@@ -34,9 +34,7 @@ class HomeViewModel: MovieViewModelProtocol {
                 if let fetchedTotalPages = response.totalPages {
                     self.totalPages = fetchedTotalPages
                 }
-                
                 self.currentPage += 1
-                
                 self.notify(.updateUpcomingMovies(self.upcomingMovies))
                 
             case .failure(let error):
