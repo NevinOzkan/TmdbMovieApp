@@ -27,7 +27,6 @@ class HomeVC: UIViewController {
         setupUI()
         setupSliderCollectionViewLayout()
         setupRefreshControl()
-        
     }
     
     private func registerCells() {
@@ -73,11 +72,12 @@ class HomeVC: UIViewController {
     
     @objc private func refreshData() {
 
-           viewModel.upcomingMovies.removeAll()
-           viewModel.nowPlayingMovies.removeAll()
-           
-           viewModel.loadUpcomingMovies()
-           viewModel.loadNowPlayingMovies()
+        viewModel.upcomingMovies.removeAll()
+        viewModel.nowPlayingMovies.removeAll()
+        
+        viewModel.loadUpcomingMovies()
+        viewModel.loadNowPlayingMovies()
+
        }
    }
 
@@ -105,7 +105,6 @@ extension HomeVC: MovieViewModelDelegate {
                 self.pageControl.numberOfPages = self.viewModel.nowPlayingMovies.count
                 self.pageControl.currentPage = 0
                 self.refreshControl.endRefreshing()
-               
             }
         }
     }
@@ -138,7 +137,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
     private func navigateToDetail(with movieID: Int) {
         let detailViewModel = DetailViewModel()
-        detailViewModel.load(movieID: movieID)
         
         let detailVC = DetailVC()
         detailVC.viewModel = detailViewModel
@@ -152,9 +150,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             let offsetY = scrollView.contentOffset.y
             let contentHeight = scrollView.contentSize.height
             let frameHeight = scrollView.frame.size.height
-        
+            
             if offsetY > contentHeight - frameHeight - 100 && !viewModel.isLoading {
-                if viewModel.currentPage < viewModel.totalPages {
+                if viewModel.currentPage <= viewModel.totalPages {
                     viewModel.loadUpcomingMovies()
                 }
             }

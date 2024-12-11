@@ -25,7 +25,7 @@ public struct MoviesModelResponse: Decodable {
         case dates
         case page
         case results
-        case totalPages
+        case totalPages = "total_pages"
     }
 }
 

@@ -15,7 +15,7 @@ class HomeViewModel: MovieViewModelProtocol {
     var service = MovieService()
     var currentPage: Int = 1
     var isLoading: Bool = false
-    var totalPages: Int = 6
+    var totalPages: Int = 500
 
     func loadUpcomingMovies() {
         guard currentPage <= totalPages, !isLoading else { return }
@@ -36,7 +36,6 @@ class HomeViewModel: MovieViewModelProtocol {
                 }
                 self.currentPage += 1
                 self.notify(.updateUpcomingMovies(self.upcomingMovies))
-                
             case .failure(let error):
                 self.delegate?.showError("Failed to load movie details: \(error.localizedDescription)")
             }

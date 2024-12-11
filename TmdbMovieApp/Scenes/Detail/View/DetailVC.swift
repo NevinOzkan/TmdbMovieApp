@@ -22,7 +22,7 @@ class DetailVC: UIViewController {
         super.viewDidLoad()
         
         viewModel.delegate = self
-        viewModel.load(movieID: movieID)
+       viewModel.load(movieID: movieID)
     }
 }
 
