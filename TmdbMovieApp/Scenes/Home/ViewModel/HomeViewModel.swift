@@ -18,14 +18,15 @@ class HomeViewModel: MovieViewModelProtocol {
     var totalPages: Int = 500
 
     func loadUpcomingMovies() {
+        print("*****1 ", isLoading)
         guard currentPage <= totalPages, !isLoading else { return }
         
         isLoading = true
-        
+        print("***** 2", isLoading)
         service.fetchUpcomingMovies(page: currentPage) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             
-            self.isLoading = false
+           
             
             switch result {
             case .success(let response):
@@ -35,6 +36,7 @@ class HomeViewModel: MovieViewModelProtocol {
                     self.totalPages = fetchedTotalPages
                 }
                 self.currentPage += 1
+                print("*****3 ", isLoading)
                 self.notify(.updateUpcomingMovies(self.upcomingMovies))
             case .failure(let error):
                 self.delegate?.showError("Failed to load movie details: \(error.localizedDescription)")

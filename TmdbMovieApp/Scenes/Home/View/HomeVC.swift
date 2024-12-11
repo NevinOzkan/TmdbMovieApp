@@ -26,7 +26,6 @@ class HomeVC: UIViewController {
         registerCells()
         setupUI()
         setupSliderCollectionViewLayout()
-        setupRefreshControl()
     }
     
     private func registerCells() {
@@ -64,22 +63,7 @@ class HomeVC: UIViewController {
         ])
     }
     
-    private func setupRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        tableView.addSubview(refreshControl)
-    }
-    
-    @objc private func refreshData() {
-
-        viewModel.upcomingMovies.removeAll()
-        viewModel.nowPlayingMovies.removeAll()
-        
-        viewModel.loadUpcomingMovies()
-        viewModel.loadNowPlayingMovies()
-
-       }
-   }
+}
 
 extension HomeVC: MovieViewModelDelegate {
     func showError(_ message: String) {
@@ -88,14 +72,14 @@ extension HomeVC: MovieViewModelDelegate {
         alert.addAction(okAction)
         self.present(alert, animated: true)
     }
-
+    
     func handleViewModelOutput(_ output: MovieViewModelOutput) {
         switch output {
         case .updateUpcomingMovies(let movieList):
             self.viewModel.upcomingMovies = movieList
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                self.refreshControl.endRefreshing()
+                self.viewModel.isLoading = false
             }
             
         case .updateNowPlayingMovies(let movieList):
@@ -104,7 +88,7 @@ extension HomeVC: MovieViewModelDelegate {
                 self.sliderCollectionView.reloadData()
                 self.pageControl.numberOfPages = self.viewModel.nowPlayingMovies.count
                 self.pageControl.currentPage = 0
-                self.refreshControl.endRefreshing()
+                
             }
         }
     }
@@ -151,7 +135,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             let contentHeight = scrollView.contentSize.height
             let frameHeight = scrollView.frame.size.height
             
+            
             if offsetY > contentHeight - frameHeight - 100 && !viewModel.isLoading {
+                print("***** ", viewModel.isLoading)
                 if viewModel.currentPage <= viewModel.totalPages {
                     viewModel.loadUpcomingMovies()
                 }
@@ -159,6 +145,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
+
 
 extension HomeVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
