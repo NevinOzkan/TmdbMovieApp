@@ -22,7 +22,23 @@ class DetailVC: UIViewController {
         super.viewDidLoad()
         
         viewModel.delegate = self
-       viewModel.load(movieID: movieID)
+        viewModel.load(movieID: movieID)
+    }
+    
+    @IBAction func ımdbButton(_ sender: Any) {
+        openMovieInSafari()
+    }
+    
+    func openMovieInSafari() {
+        let tmdbURLString = "https://www.themoviedb.org/movie/\(movieID!)"
+        
+        if let url = URL(string: tmdbURLString) {
+            
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            
+            showError("Geçerli bir URL oluşturulamadı.")
+        }
     }
 }
 
