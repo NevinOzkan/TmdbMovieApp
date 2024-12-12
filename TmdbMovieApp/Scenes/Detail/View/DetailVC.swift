@@ -26,10 +26,6 @@ class DetailVC: UIViewController {
     }
     
     @IBAction func ımdbButton(_ sender: Any) {
-        openMovieInSafari()
-    }
-    
-    func openMovieInSafari() {
         let tmdbURLString = "https://www.themoviedb.org/movie/\(movieID!)"
         
         if let url = URL(string: tmdbURLString) {
