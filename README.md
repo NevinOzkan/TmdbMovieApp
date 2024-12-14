@@ -1,4 +1,10 @@
 # TmdbMovieApp
 
 
-<img src="ReadmeFolder/movieApp.gif" alt="gif" style/>
+🛠️ Kullandığım Teknolojiler ve Araçlar:
+- Swift
+- MVVM
+- Alamofire
+- UIKit & Xib Dosyaları
+- SDWebImage
+- POP
