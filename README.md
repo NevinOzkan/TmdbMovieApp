@@ -9,4 +9,4 @@
 - SDWebImage
 - POP
 
-<img src="ReadmeFolder/movieApp.gif" alt="gif" style="width:220px;"/>
+<img src="TmdbMovieApp/ReadmeFolder/movieApp.gif" alt="gif" style="width:220px;"/>
